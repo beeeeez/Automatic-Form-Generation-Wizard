@@ -8,8 +8,52 @@ using System.Web;
 /// </summary>
 public class question
 {
-    public question(string title, string type, List<Options> options)
+    public string title;
+    public string type;
+    public string[] options;
+
+
+    public question(string title, string type, string[] options)
     {
-       
+        this.Title = title;
+        this.Type = type;
+        this.Options = options;
+    }
+
+    public string Title
+    {
+        get
+        {
+            return title;
+        }
+        set
+        {
+            title = value;
+        }
+    }
+
+    public string Type
+    {
+        get
+        {
+            return type;
+        }
+        set
+        {
+            type = value;
+        }
+    }
+
+
+    public string[] Options
+    {
+        get
+        {
+            return options;
+        }
+        set
+        {
+            options = value;
+        }
     }
 }

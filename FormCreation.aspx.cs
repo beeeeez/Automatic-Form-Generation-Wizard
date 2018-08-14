@@ -8,6 +8,8 @@ using System.Web.UI.WebControls;
 
 public partial class FormCreation : System.Web.UI.Page
 {
+
+    
     protected void Page_PreInit(object sender, EventArgs e)
     {
         
@@ -18,18 +20,24 @@ protected void Page_Load(object sender, EventArgs e)
         if (Session["quesNum"] == null)
         {
             Session["quesNum"] = 0;
-
+        }
+        if (Session["masterlist"] == null)
+        {
+            Session["masterlist"] = new question[0];
         }
         else
         {
-            int i = 0;
-            while ((int)Session["quesNum"] > i)
-            {
-                generateNewQuestion();
-                i++;
-            }
+            populateQuestions();
         }
 }
+
+    protected void populateQuestions()
+    {
+        foreach(question q in (question[])Session["masterlist"])
+        {
+
+        }
+    }
 
     protected void question_Click(object sender, EventArgs e)
     {
@@ -43,6 +51,8 @@ protected void Page_Load(object sender, EventArgs e)
 
     protected void generateNewQuestion()
     {
+
+        
 
         PlaceHolder ph = new PlaceHolder();
         TextBox tb = new TextBox();
