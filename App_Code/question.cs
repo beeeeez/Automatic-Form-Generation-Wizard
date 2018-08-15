@@ -13,11 +13,14 @@ public class question
     public string[] options;
 
 
+
     public question(string title, string type, string[] options)
     {
         this.Title = title;
         this.Type = type;
         this.Options = options;
+
+
     }
 
     public string Title
@@ -31,6 +34,8 @@ public class question
             title = value;
         }
     }
+
+
 
     public string Type
     {
@@ -56,4 +61,9 @@ public class question
             options = value;
         }
     }
+
+
+
+
 }
+
