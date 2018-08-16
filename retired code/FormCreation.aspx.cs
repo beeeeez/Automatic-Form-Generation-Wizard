@@ -183,7 +183,7 @@ protected void Page_Load(object sender, EventArgs e)
             clay[i].type = ddList[i].Text;
             if (clay[i].type == "Multple Choice" || clay[i].type == "Checkbox")
             {
-                clay[i].options = opList[i];
+            //    clay[i].options = opList[i];
             }
             i++;
         }
