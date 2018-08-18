@@ -10,14 +10,16 @@ public class question
 {
     public string title;
     public string type;
+    public int opnum;
     public string[] options;
 
 
 
-    public question(string title, string type, string[] options)
+    public question(string title, string type, int opnum, string[] options)
     {
         this.Title = title;
         this.Type = type;
+        this.Opnum = opnum;
         this.Options = options;
 
 
@@ -49,6 +51,17 @@ public class question
         }
     }
 
+    public int Opnum
+    {
+        get
+        {
+            return opnum;
+        }
+        set
+        {
+            opnum = value;
+        }
+    }
 
     public string[] Options
     {

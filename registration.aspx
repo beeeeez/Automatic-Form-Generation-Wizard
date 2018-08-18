@@ -17,6 +17,7 @@
         }
     </style>
     <div class="contain"><br />
+        <form runat="server">
         <h1>User Registration</h1>
 
         <div class="form-group">
@@ -41,7 +42,7 @@
         <asp:Button ID="registerBtn" class="btn btn-primary" runat="server" Text="Register" OnClick="registerBtn_Click" /><br /> <br />
           <a href="Default.aspx" class="btn btn-primary">Return To Login Page</a>
         </div><br />
-
+            </form>
         </div>
 
 

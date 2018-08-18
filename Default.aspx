@@ -18,15 +18,15 @@
         }
     </style>
     <div class="contain"><br />
-        <h1>Automatic Form Generation Wizard</h1><br />
+  <form runat="server">        <h1>Automatic Form Generation Wizard</h1><br />
 
         <div class="form-group">
       <label for="user">Username :</label>
-      <asp:TextBox runat="server" type="text" class="form-control" id="username" aria-describedby="username" placeholder="Enter Username"></asp:TextBox>
+      <asp:TextBox runat="server" CssClass="form-control" id="username"></asp:TextBox>
       </div>
     <div class="form-group">
       <label for="pass">Password :</label>
-      <asp:TextBox runat="server" type="text" class="form-control" id="password" aria-describedby="password" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
+      <asp:TextBox runat="server" CssClass="form-control" id="password" TextMode="Password"></asp:TextBox>
       </div>
         <br />
     <asp:Literal ID="loginerror" runat="server" Visible="false"><h6>Incorrect Username or Password</h6>
@@ -34,12 +34,13 @@
 
 
     <div class="form-group">
-        <asp:Button ID="loginBtn" class="btn btn-primary" runat="server" Text="Login" OnClick="loginBtn_Click" /><br /> <br />
+        <asp:Button ID="loginBtn" CssClass="btn btn-primary" runat="server" Text="Login" OnClick="loginBtn_Click" /><br /> <br />
           <a href="Registration.aspx" class="btn btn-primary">Register</a>
         </div>
 
 
 
+        </form>
 
     </div>
 

@@ -11,11 +11,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <div class="contain">
+        <form runat="server">
 
         <h2>Welcome back, <span runat="server" id="displayName"></span>! <asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /></h2><br />
-        <a href="formcreation.aspx" class="btn btn-success btn-lg">Create a New Form</a><br /> <br />
+        <a href="FormCreate.aspx" class="btn btn-success btn-lg">Create a New Form</a><br /> <br />
 
-        <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" class="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222">
+        <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" CssClass="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222">
             <Columns>
                 <asp:BoundField DataField="formid" HeaderText="Form ID #" ItemStyle-CssClass="tablething"/>
                 <asp:BoundField DataField="form_title" HeaderText="Form Title" ItemStyle-CssClass="tablething" />
@@ -31,7 +32,7 @@
         <div id="noForms" runat="server">
 
         </div>
-
+        </form>
     </div>
 
 </asp:Content>
