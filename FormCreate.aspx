@@ -126,6 +126,8 @@
                         while (opCount <= opTotal) {
                             $('div#options' + qnum).find('span#delOption' + opCount).attr('onclick', 'delOption(' + correctNum + ', ' + opCount + ')');
                             $('div#options' + qnum).find($('span#delOption' + opCount)).attr('id', 'delOption' + opCount);
+                            $('div#options' + qnum).find($('input#q' + qnum + 'Option' + opCount)).attr('name', 'q' + correctNum + 'Option' + opCount);
+                            $('div#options' + qnum).find($('input#q' + qnum + 'Option' + opCount)).attr('id', 'q' + correctNum + 'Option' + opCount);
                             opCount++;
                         }
 
@@ -178,14 +180,14 @@
                 */
 
                 function drawOption(hold) {
-                    let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="Option1" name="Option1" /><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-danger">Delete this option </span><br /> <input type="text" class="form-control" placeholder="Untitled Option" id="Option2" name="Option2"><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-danger" >Delete this option </span><br /><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary" >Add option</span></div> ';
+                    let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="q'+hold+'Option1" name="q'+hold+'Option1" /><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-danger">Delete this option </span><br /> <input type="text" class="form-control" placeholder="Untitled Option" id="q'+hold+'Option2" name="q'+hold+'Option2"><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-danger" >Delete this option </span><br /><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary" >Add option</span></div> ';
                     $('#q' + hold).append(draw);
                 }
 
                 function addOption(hold) {
                     let opTotal = parseInt($('#q' + hold + 'OptionsTotal').val());
                     opTotal++;
-                    let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="Option' + opTotal + '"  name="Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-danger" >Delete this option </span><br />';
+                    let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="q'+hold+'Option' + opTotal + '"  name="q'+hold+'Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-danger" >Delete this option </span><br />';
                     $('#q' + hold + 'OptionsTotal').val(opTotal);
                     $('#addOption' + hold).before(draw);
                     
@@ -207,7 +209,7 @@
                     let totalOp = parseInt($('#q' + qnum + 'OptionsTotal').val());
                     console.log(totalOp + " parsed Total");
                     console.log("destroyed question#" + qnum + "  - option#" + onum);
-                    $('#options' + qnum).find('#Option' + onum).remove();
+                    $('#options' + qnum).find('#q' +qnum+ 'Option' + onum).remove();
                     $('#options' + qnum).find('#delOption' + onum).remove();
                     
                     if ($('#options' + qnum).find(":text").length == 0) {
@@ -223,11 +225,9 @@
                           
 
                         
-                            console.log(onum + "- option number incrementor");
-                            console.log('#options' + qnum);
-                            console.log('#Option' + onum);
-                            $('div#options' + qnum).find($('input#Option' + onum)).attr('name', 'Option' + correctNum);
-                            $('div#options' + qnum).find($('input#Option' + onum)).attr('id', 'Option' + correctNum);
+
+                            $('div#options' + qnum).find($('input#q'+qnum+'Option' + onum)).attr('name', 'q'+qnum+'Option' + correctNum);
+                            $('div#options' + qnum).find($('input#q' + qnum + 'Option' + onum)).attr('id', 'q'+qnum+'Option' + correctNum);
                             $('div#options' + qnum).find($('span#delOption' + onum)).attr('onclick', 'delOption(' + qnum + ', ' + correctNum + ')');
                             $('div#options' + qnum).find($('span#delOption' + onum)).attr('id', 'delOption' + correctNum);
                             onum++;

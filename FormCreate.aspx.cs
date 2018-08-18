@@ -54,9 +54,11 @@ public partial class FormCreate : System.Web.UI.Page
             {
                 Int32.TryParse(Request.Form["q" + i + "OptionsTotal"], out totalO);
                 opHold = new string[totalO];
+                int k;
                 for (int j = 0; j < totalO; j++)
                 {
-                    opHold[j] = Request.Form["Option" + j];
+                    k = j + 1;
+                    opHold[j] = Request.Form["q"+i+"Option" + k];
                 }
             }
 
