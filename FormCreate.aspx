@@ -124,11 +124,12 @@
                         let opTotal = parseInt($('#q' + qnum + 'OptionsTotal').val());
                         let opCount = 1;
                         while (opCount <= opTotal) {
-                            $('#options' + qnum).find('#delOption' + opCount).attr('onclick', 'delOption(' + correctNum + ', ' + opCount + ')');
+                            $('div#options' + qnum).find('span#delOption' + opCount).attr('onclick', 'delOption(' + correctNum + ', ' + opCount + ')');
+                            $('div#options' + qnum).find($('span#delOption' + opCount)).attr('id', 'delOption' + opCount);
                             opCount++;
                         }
 
-                        $('#addOption' + qnum).attr('onclick', "addOption(" + correctNum + ")");
+                        $('span#addOption' + qnum).attr('onclick', "addOption(" + correctNum + ")");
                         $('#q' + qnum + "OptionsTotal").attr('id', "q" + correctNum + "OptionsTotal");
                         $('#options' + qnum).attr('id', "options" + correctNum);
 
@@ -195,15 +196,50 @@
                     $('#options' + hold).remove();
                 }
 
+
+
+                
+
+
+
+
                 function delOption(qnum, onum) {
                     let totalOp = parseInt($('#q' + qnum + 'OptionsTotal').val());
+                    console.log(totalOp + " parsed Total");
+                    console.log("destroyed question#" + qnum + "  - option#" + onum);
                     $('#options' + qnum).find('#Option' + onum).remove();
                     $('#options' + qnum).find('#delOption' + onum).remove();
-                   
+                    
                     if ($('#options' + qnum).find(":text").length == 0) {
                         destroyOption(qnum);
                         $('#ddl' + qnum).val("short")
                     }
+                       
+
+                    else {
+                        let correctNum = onum - 1;
+                        console.log(qnum + "question number");
+                        while (onum <= totalOp) {
+                          
+
+                        
+                            console.log(onum + "- option number incrementor");
+                            console.log('#options' + qnum);
+                            console.log('#Option' + onum);
+                            $('div#options' + qnum).find($('input#Option' + onum)).attr('name', 'Option' + correctNum);
+                            $('div#options' + qnum).find($('input#Option' + onum)).attr('id', 'Option' + correctNum);
+                            $('div#options' + qnum).find($('span#delOption' + onum)).attr('onclick', 'delOption(' + qnum + ', ' + correctNum + ')');
+                            $('div#options' + qnum).find($('span#delOption' + onum)).attr('id', 'delOption' + correctNum);
+                            onum++;
+                            correctNum++;
+                            
+
+                        }
+                        totalOp = totalOp - 1;
+                        $('#q' + qnum + 'OptionsTotal').val(totalOp);
+                    }
+                        /*
+
                     else {
                         onum = parseInt(onum);
                         let correctNum = onum-1;
@@ -220,6 +256,7 @@
                     }
                     totalOp = totalOp-1;
                     $('#q' + qnum + 'OptionsTotal').val(totalOp);
+                    */
                 }
 
                 /*

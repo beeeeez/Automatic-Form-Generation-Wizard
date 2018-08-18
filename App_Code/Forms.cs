@@ -44,6 +44,31 @@ public class Forms : SQL
         connection.Close();
     }
 
+    public void fillStructure(int formid, int totalQ, List<question> qList)
+    {
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = HttpContext.Current.Session["username"].ToString() + "_" + formid.ToString() + "_Structure";
+        string sqlStr = "insert into " + tablename + " Values (" + totalQ;
+        foreach(question q in qList)
+        {
+            sqlStr += ", " +"'" + q.Title + "'";
+            sqlStr += ", " +"'" + q.Type + "'";
+            if (q.type == "multiple" || q.type == "checkbox")
+            {
+                sqlStr += ", " + q.opnum;
+                foreach(string str in q.options)
+                {
+                    sqlStr += ", " + "'" + str + "'";
+                }
+            }
+        }
+        sqlStr += ")";
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+    }
+
     public void createInstanceMaster(int formid)
     {
         SqlConnection connection = new SqlConnection(connString);
