@@ -9,7 +9,7 @@
    
 
     <asp:PlaceHolder ID="create" runat="server"></asp:PlaceHolder>
-            <asp:Button ID="submitBtn" runat="server" Text="Submit Form" OnClick="fillout_submit()" />
+            <asp:Button ID="submitBtn" runat="server" Text="Submit Form" OnClick="submitBtn_Click" />
     </form>
      </div>
 

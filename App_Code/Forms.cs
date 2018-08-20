@@ -26,14 +26,14 @@ public class Forms : SQL
         connection.Open();
         SqlDataReader dataRead = commandah.ExecuteReader();
         int qnum;
-        question temp = new question(null, null, 0, null);
+        
         string[] stringArr = new string[0];
         while (dataRead.Read())
         {
            qnum = (int)dataRead["qnum"];
             for(int i = 1; i <= qnum; i++)
             {
-                
+                question temp = new question(null, null, 0, null);
                 temp.title = dataRead["q" + i].ToString();
                 temp.type = dataRead["q" + i + "_type"].ToString();
                 if (temp.type == "multiple" || temp.type == "checkbox")

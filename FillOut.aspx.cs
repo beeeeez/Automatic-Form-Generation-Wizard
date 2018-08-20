@@ -23,7 +23,9 @@ public partial class FillOut : System.Web.UI.Page
         int formid;
         Int32.TryParse(Request.QueryString["formid"], out formid);
         List<question> qList = sql.getFormStructure(formid, user);
-        
+        TextBox count = new TextBox();
+        count.Visible = false;
+        count.ID = "qCount";
 
         int i = 1;
         int onum;
@@ -35,9 +37,10 @@ public partial class FillOut : System.Web.UI.Page
             CheckBoxList checkboxlist = new CheckBoxList();
             CheckBox checkbox = new CheckBox();
             Calendar calendar = new Calendar();
-            lit.Text = "<hr />";
-            create.Controls.Add(lit);
-            lit.Text = "<h4>" + q.title + "<h4>";
+            
+            lit.Text += "<hr />";
+            lit.Text += "<h4>" + q.title + "</h4>";
+            lit.Text += "draw ME!" + i.ToString();
             create.Controls.Add(lit);
 
             if (q.type == "short")
@@ -60,8 +63,7 @@ public partial class FillOut : System.Web.UI.Page
                 {
                     multiple.Items.Add(option);
                  }
-                lit.Text = "<br />";
-                create.Controls.Add(lit);
+
                 create.Controls.Add(multiple);
             }
             else if (q.type == "checkbox")
@@ -72,25 +74,30 @@ public partial class FillOut : System.Web.UI.Page
                 {
                     checkboxlist.Items.Add(option);
                 }
-                lit.Text = "<br />";
-                create.Controls.Add(lit);
+
                 create.Controls.Add(checkboxlist);
             }
             else if (q.type == "datetime")
             {
-                lit.Text = "<br />";
                 calendar.ID = "cal" + i;
-                create.Controls.Add(lit);
                 create.Controls.Add(calendar);
             }
-
+            i++;
         }
+        count.Text = i.ToString();
     }
 
-    protected void fillout_Submit()
-    { 
+
+
+
+
+    protected void submitBtn_Click(object sender, EventArgs e)
+    {
+
+
 
     }
+
 
 
 }
