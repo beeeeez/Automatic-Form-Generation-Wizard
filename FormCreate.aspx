@@ -26,9 +26,6 @@
             width: 45%;
         }
 
-        #saveSubmit {
-            display: none;
-        }
     </style>
 </asp:Content>
 
@@ -37,41 +34,69 @@
 
  
     <div class="contain">
-        <form action="#" method="post" runat="server">
+        <form action="#" method="post" runat="server" onsubmit="return saveValidate()">
         <h3>New Form Creation -- <a href="Homepage.aspx">Return to Homepage</a></h3>
         <br />
         <div id="inner">
             <h4>What is your new form's title? :</h4>
-            <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" />
+            <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" required />
             <label id="errLbl"></label>
-            <div id="create"></div>
+            <div id="create"></div><hr />
             <input type="hidden" id="totalQ" name="totalQ"/>
             <div class="btn btn-primary" id="addBtn">Add a New Question</div>
             <div class="btn btn-primary" id="addText">Add Text</div>
+
             <br />
+            <input type="submit" id="saveSubmit" class="btn btn-success" text="Save and Finish Form Creation" />
+            <!--
             <div class="btn btn-success" id="saveBtn">Save Form</div>
-            <asp:Button ID="saveSubmit" runat="server" Text="Save Form" CssClass="btn btn-primary"/>
+            <asp:Button ID="saveSubmit" runat="server" Text="Save Form" CssClass="btn btn-primary"/>-->
 
             </div>
             <script>
 
+                function saveValidate(event) {
+                    let kosher = true;
+                    for (let x in $("div#contain").children("input[type='text']")) {
+                    if ($("#totalQ").val() == 0) {
+                        $("#errLbl").html("You need to add at least one question!");
+                        kosher = false;
+
+                    }
+                        /*
+                    else if (x.val().length() == 0) {
+                            let text = '<br><label id="' + $(this).toString() + '">You need to fill out this required field</label><br />';
+                            x.after()
+                            kosher = false;
+                    }*/ 
+                    else if (x.val().length() != 0) {
+                        $(this.toString()).remove();
+                    }
+                    
+
+                    }
+                    if (kosher == false) {
+                        return false;
+                    }
+                    return true;
+                }
                 let qnum = 0;
                 let ddlMem;
                 $("#totalQ").val(qnum);
 
+
+                /*
                 $("#saveBtn").click(function () {
                     if ($("#formtitle").val() == "") {
                         $("#errLbl").html("You need to enter a form title!");
                     }
-                    else if ($("#totalQ").val() == 0) {
-                        $("#errLbl").html("You need to add at least one question!");
-                    }
+                   
                     else {
                         $("#saveSubmit").trigger("click");
                     }
 
 
-                });
+                });*/
 
                 $("#addText").click(function () {
                     qnum = parseInt($("#totalQ").val()) + 1;
@@ -84,7 +109,7 @@
 
                 $("#addBtn").click(function () {
                     qnum = parseInt($("#totalQ").val()) + 1;
-                    let qDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Question #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="text" id="tb' + qnum + '"  name="tb' + qnum + '" placeholder="Untitled Question" class="form-control" style="width:40%;"><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger">Delete this Question</span><br /><label>What is the input type? :</label><br /><select id="ddl' + qnum + '"  name="ddl' + qnum + '" onchange="ddlChange(' + qnum + ')"><option value="short">Short Text</option><option value="long">Long Text</option><option value="multiple">Multiple Choice</option><option value="checkbox">Checkboxes</option><option value="datetime">Date & Time</option></select></div>';
+                    let qDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Question #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="text" id="tb' + qnum + '"  name="tb' + qnum + '" placeholder="Untitled Question" class="form-control" style="width:40%;" required><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger">Delete this Question</span><br /><label>What is the input type? :</label><br /><select id="ddl' + qnum + '"  name="ddl' + qnum + '" onchange="ddlChange(' + qnum + ')"><option value="short">Short Text</option><option value="long">Long Text</option><option value="multiple">Multiple Choice</option><option value="checkbox">Checkboxes</option><option value="datetime">Date & Time</option></select></div>';
                     $("#totalQ").val(qnum);
                     $("#create").append(qDiv);
 
@@ -180,14 +205,14 @@
                 */
 
                 function drawOption(hold) {
-                    let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="q'+hold+'Option1" name="q'+hold+'Option1" /><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-danger">Delete this option </span><br /> <input type="text" class="form-control" placeholder="Untitled Option" id="q'+hold+'Option2" name="q'+hold+'Option2"><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-danger" >Delete this option </span><br /><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary" >Add option</span></div> ';
+                    let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option1" name="q' + hold + 'Option1" required/><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-danger">Delete this option </span><br /> <input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option2" name="q' + hold + 'Option2" required><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-danger" >Delete this option </span><br /><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary" >Add option</span></div> ';
                     $('#q' + hold).append(draw);
                 }
 
                 function addOption(hold) {
                     let opTotal = parseInt($('#q' + hold + 'OptionsTotal').val());
                     opTotal++;
-                    let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="q'+hold+'Option' + opTotal + '"  name="q'+hold+'Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-danger" >Delete this option </span><br />';
+                    let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option' + opTotal + '"  name="q' + hold + 'Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-danger" required >Delete this option </span><br />';
                     $('#q' + hold + 'OptionsTotal').val(opTotal);
                     $('#addOption' + hold).before(draw);
                     

@@ -15,6 +15,47 @@ public class Forms : SQL
     {
 
     }
+
+    public List<question> getFormStructure(int formid, string username)
+    {
+        List<question> qList = new List<question>();
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Structure";
+        string sqlStr = "select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        int qnum;
+        question temp = new question(null, null, 0, null);
+        string[] stringArr = new string[0];
+        while (dataRead.Read())
+        {
+           qnum = (int)dataRead["qnum"];
+            for(int i = 1; i <= qnum; i++)
+            {
+                
+                temp.title = dataRead["q" + i].ToString();
+                temp.type = dataRead["q" + i + "_type"].ToString();
+                if (temp.type == "multiple" || temp.type == "checkbox")
+                {
+                    temp.opnum = (int)dataRead["q" + i + "_opnum"];
+                    stringArr = new string[temp.opnum];
+
+                    for (int j = 0, k = 1; j < temp.opnum; j++, k++)
+                    {
+                        stringArr[j] = dataRead["q" + i + "_op" + k].ToString();
+                    }
+                    temp.options = stringArr;
+                }
+                qList.Add(temp);
+            }
+
+        }
+        connection.Close();
+        return qList;
+    }
+
+
     public void createStructure(int formid, int totalQ, List<question> qList)
     {
         SqlConnection connection = new SqlConnection(connString);

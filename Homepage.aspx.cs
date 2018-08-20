@@ -12,7 +12,6 @@ public partial class Homepage : System.Web.UI.Page
     {
         Session["quesNum"] = 0;
         Forms temp = new Forms();
-
         displayName.InnerHtml = Session["username"].ToString();
         DataSet bung = temp.populateFormsTable();
         if((bool)Session["isthereData"] == true )
