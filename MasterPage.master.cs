@@ -17,7 +17,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
         if ((bool)Session["loggedIn"] == false)
         {
-            if(path == "Homepage.aspx")
+            if(path == "Homepage.aspx" || path =="FormCreate.aspx")
             {
                 Response.BufferOutput = true;
                 Response.Redirect("Default.aspx");

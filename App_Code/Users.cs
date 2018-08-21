@@ -13,6 +13,29 @@ public class Users : SQL
 
     }
 
+    public string findUsername(string email)
+    {
+        string username = ""; 
+        SqlConnection connection = new SqlConnection(connString);
+        string sqlStr = "Select username, email from USERS_KEY where email = @Email";
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        commandah.Parameters.AddWithValue("@Email", email);
+        SqlDataAdapter dataShmata = new SqlDataAdapter();
+        dataShmata.SelectCommand = commandah;
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        while (dataRead.Read())
+        {
+            username = dataRead["username"].ToString();
+        }
+        connection.Close();
+        if(username == "")
+        {
+            username = "No Username Found!";
+        }
+        return username;
+
+    }
 
     public void loginAttempt(string user, string knock)
     {

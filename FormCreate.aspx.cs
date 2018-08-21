@@ -29,6 +29,7 @@ public partial class FormCreate : System.Web.UI.Page
                 create.createStructure(formid, totalQ, qList);
                 create.fillStructure(formid, totalQ, qList);
             }
+            Session["notification"] = "Form Created!";
             Response.Redirect("Homepage.aspx");
         }
         else

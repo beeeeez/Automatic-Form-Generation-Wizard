@@ -14,18 +14,28 @@ public partial class registration : System.Web.UI.Page
 
     protected void registerBtn_Click(object sender, EventArgs e)
     {
-        Users temp = new Users();
-        temp.registerUser(username.Text, password.Text, email.Text);
-        if(Session["errorMsg"].ToString() == "")
+        if (username.Text == "" || password.Text == "" || confirm.Text == "" || email.Text == "")
         {
-            Response.BufferOutput = true;
-            Response.Redirect("Default.aspx");
+            errorDiv.InnerHtml = "You need to fill out all of the fields";
         }
-        else
+        else if (password.Text != confirm.Text)
         {
-            errorDiv.InnerHtml = Session["errorMsg"].ToString();
+            errorDiv.InnerHtml = "Your passwords do not match!";
         }
+        else{
+            Users temp = new Users();
+            temp.registerUser(username.Text, password.Text, email.Text);
+            if (Session["errorMsg"].ToString() == "")
+            {
+                Response.BufferOutput = true;
+                Response.Redirect("Default.aspx");
+            }
 
+            else
+            {
+                errorDiv.InnerHtml = Session["errorMsg"].ToString();
+            }
+        }
 
 
     }

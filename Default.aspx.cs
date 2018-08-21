@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Net.Mail;
+
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -16,15 +18,18 @@ public partial class _Default : System.Web.UI.Page
     {
         Users temp = new Users();
         temp.loginAttempt(username.Text, password.Text);
-        if((bool)Session["loggedIn"] == true)
+        if ((bool)Session["loggedIn"] == true)
         {
             Response.BufferOutput = true;
             Response.Redirect("Homepage.aspx");
         }
         else
         {
-            loginerror.Visible = true; 
+            loginerror.Visible = true;
         }
 
     }
+
+
 }
+

@@ -16,6 +16,11 @@ public class Instance : SQL
         
     }
 
+    public DataSet populateTrackingTable(string username, int formid)
+    {
+
+    }
+
     public void filloutForm(string username, int formid, List<String> answers)
     {
         DateTime anchor = createNewInstanceID(username, formid);
@@ -48,11 +53,13 @@ public class Instance : SQL
         string sqlStr = "select * from " + tablename + " where fillout_date = @Date";
         SqlCommand commandah = new SqlCommand(sqlStr, connection);
         commandah.Parameters.AddWithValue("@Date", anchorDate);
+        connection.Open();
         SqlDataReader dataRead = commandah.ExecuteReader();
         while (dataRead.Read())
         {
             instanceid = (int)dataRead["instanceid"];
         }
+        connection.Close();
         return instanceid;
     }
 
@@ -92,11 +99,11 @@ public class Instance : SQL
         {
             if (i == 1)
             {
-                sqlStr += x;
+                sqlStr += "'" + x + "'";
             }
             else
             {
-                sqlStr += ", " + x;
+                sqlStr += ", " + "'" + x + "'";
             }
             i++;
         }

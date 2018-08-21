@@ -35,7 +35,8 @@
 
     <div class="form-group">
         <asp:Button ID="loginBtn" CssClass="btn btn-primary" runat="server" Text="Login" OnClick="loginBtn_Click" /><br /> <br />
-          <a href="Registration.aspx" class="btn btn-primary">Register</a>
+          <a href="Registration.aspx" class="btn btn-primary">Register</a><br /><br />
+         <a href="lostPass.aspx" class="btn btn-warning">Lost your Password?</a>
         </div>
 
 

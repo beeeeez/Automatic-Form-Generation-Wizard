@@ -27,6 +27,15 @@ public partial class Homepage : System.Web.UI.Page
             noForms.InnerHtml = "<h6>Create a new form by clicking the create form button!</h6>";
         }
 
+        if (Session["notification"] !=null && Session["notification"].ToString() != "")
+        {
+            Literal notify = new Literal();
+            notify.Text = "<h4 class="+'"'+"notify"+'"'+">" + Session["notification"].ToString() + "</h4>";
+            
+            Notifcation.Controls.Add(notify);
+            Session["notification"] = "";
+        }
+
     }
 
     protected void logout_Click(object sender, EventArgs e)

@@ -7,9 +7,10 @@ using System.Web.UI.WebControls;
 
 public partial class FillOut : System.Web.UI.Page
 {
-    
-    protected void Page_Load(object sender, EventArgs e)
+
+    protected void Page_Init(Object sender, EventArgs e)
     {
+
         Forms sql = new Forms();
         string user;
         if (Session["username"] == null)
@@ -38,11 +39,13 @@ public partial class FillOut : System.Web.UI.Page
         create.Controls.Add(formidBox);
         create.Controls.Add(username);
 
-        int i = 1;
+        int i = 0;
         int onum;
-        foreach(question q in qList)
+        foreach (question q in qList)
         {
+            i++;
             Literal lit = new Literal();
+            Literal staticText = new Literal();
             Literal hidden = new Literal();
             Literal script = new Literal();
             TextBox text = new TextBox();
@@ -50,15 +53,19 @@ public partial class FillOut : System.Web.UI.Page
             CheckBoxList checkboxlist = new CheckBoxList();
             CheckBox checkbox = new CheckBox();
 
-            
+
             lit.Text += "<hr />";
             lit.Text += "<h4>" + q.title + "</h4>";
             create.Controls.Add(lit);
+
             TextBox typeBox = new TextBox();
             typeBox.ID = "type" + i.ToString();
-            typeBox.Visible = false;
             typeBox.Text = q.type;
+            typeBox.Visible = false;
+
             create.Controls.Add(typeBox);
+
+
             if (q.type == "short")
             {
                 text.ID = "tb" + i;
@@ -69,17 +76,21 @@ public partial class FillOut : System.Web.UI.Page
                 text.ID = "tb" + i;
                 text.Rows = 7;
                 text.Columns = 55;
-                text.TextMode= TextBoxMode.MultiLine;
+                text.TextMode = TextBoxMode.MultiLine;
                 create.Controls.Add(text);
+            }
+            else if (q.type == "static")
+            {
+                staticText.Text = "<h4>" + q.title + "</h4>";
             }
             else if (q.type == "multiple")
             {
                 onum = q.opnum;
                 multiple.ID = "ddl" + i;
-                foreach(string option in q.options)
+                foreach (string option in q.options)
                 {
                     multiple.Items.Add(option);
-                 }
+                }
 
                 create.Controls.Add(multiple);
             }
@@ -97,7 +108,7 @@ public partial class FillOut : System.Web.UI.Page
             else if (q.type == "datetime")
             {
 
-                script.Text = "<script>$(function() {$('#ContentPlaceHolder1_date"+i.ToString()+"').datepicker(); });</script>";
+                script.Text = "<script>$(function() {$('#ContentPlaceHolder1_date" + i.ToString() + "').datepicker(); });</script>";
                 /*
                 script.Text = "<script>$(function() {$(" + '"' + "#datepicker" + '"' + ").datepicker();});</script><input type=" + '"' + "text" + '"' + "id =" + '"' + "datepicker" + '"' + " name=" + '"' + "date" + i.ToString() + '"' + " > At";
                 */
@@ -108,10 +119,16 @@ public partial class FillOut : System.Web.UI.Page
                 time.ID = "time" + i.ToString();
                 create.Controls.Add(time);
             }
-            i++;
+            
         }
         count.Text = i.ToString();
+        count.Visible = false;
         create.Controls.Add(count);
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
 
     }
 
@@ -169,28 +186,35 @@ public partial class FillOut : System.Web.UI.Page
         PlaceHolder cph = (PlaceHolder)mcph.FindControl("create");
 
         TextBox qCountBox = (TextBox)cph.FindControl("qCount");
+        int i = 1;
+
+
+ 
         int qCount;
         Int32.TryParse(qCountBox.Text, out qCount);
-        List<String> answerList = new List<String>();
-        for (int i =1; i<=qCount;i++)
+        List<string> answerList = new List<string>();
+        while (i <= qCount)
         {
-            TextBox type = (TextBox)cph.FindControl("type" + i.ToString());
-            if(type.Text == "short" || type.Text == "long")
+
+            TextBox typeBox = (TextBox)cph.FindControl("type" + i.ToString());
+            string type = typeBox.Text;
+
+            if (type == "short" || type == "long")
             {
                 TextBox val = (TextBox)cph.FindControl("tb" + i.ToString());
                 answerList.Add(val.Text);
             }
-            else if (type.Text == "multiple")
+            else if (type == "multiple")
             {
-                DropDownList val = (DropDownList)cph.FindControl("ddl" + i.ToString());
-                answerList.Add(val.Text);
+                DropDownList ddlval = (DropDownList)cph.FindControl("ddl" + i.ToString());
+                answerList.Add(ddlval.Text);
             }
-            else if (type.Text == "checkbox")
+            else if (type == "checkbox")
             {
-                CheckBoxList val = (CheckBoxList)cph.FindControl("cb" + i.ToString());
+                CheckBoxList cbval = (CheckBoxList)cph.FindControl("cb" + i.ToString());
                 string sb = "";
                 int throwaway = 1;
-                foreach (ListItem selected in val.Items)
+                foreach (ListItem selected in cbval.Items)
                 {
                     if (throwaway == 1)
                     {
@@ -204,24 +228,26 @@ public partial class FillOut : System.Web.UI.Page
                 }
                 answerList.Add(sb);                
             }
-            else if (type.Text == "datetime")
+            else if (type == "datetime")
             {
                 TextBox date = (TextBox)cph.FindControl("date" + i.ToString());
-                TextBox time = (TextBox)cph.FindControl("time" + i.ToString());
+                DropDownList time = (DropDownList)cph.FindControl("time" + i.ToString());
 
                 string sb = date.Text + "-" + time.Text;
                 answerList.Add(sb);
 
-            } 
+            }
 
-
+            i++;
         }
-        TextBox usernameBox = cph.FindControl("username") as TextBox;
+        TextBox usernameBox = cph.FindControl("user") as TextBox;
         TextBox formidBox = cph.FindControl("formid") as TextBox;
         Instance instance = new Instance();
         int formid = 0;
         Int32.TryParse(formidBox.Text, out formid);
         instance.filloutForm(usernameBox.Text, formid, answerList);
-        Response.Redirect("Default.aspx");
+        Session["notification"] = "Form Fill Out Completed!";
+        Response.Redirect("Homepage.aspx");
+        
     }
 }
