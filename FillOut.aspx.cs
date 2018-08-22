@@ -139,20 +139,14 @@ public partial class FillOut : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(Request.QueryString["instanceid"] != null)
+        if(!IsPostBack)
         {
-            if (Session["thisisPostBack"] == null)
-            {
+
                 int instanceid;
                 Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
-                fillOutFields(instanceid);
-                
-            }
-            else
-            {
-                Session["thisisPostBack"] = null;
-            }
-            
+                fillOutFields(instanceid);      
+
+
         }
     }
 
@@ -229,7 +223,7 @@ public partial class FillOut : System.Web.UI.Page
             else if (type == "multiple")
             {
                 DropDownList ddlval = (DropDownList)cph.FindControl("ddl" + i.ToString());
-                ddlval.Text = answer;
+                ddlval.SelectedValue = answer;
             }
             else if (type == "checkbox")
             {
@@ -300,7 +294,7 @@ public partial class FillOut : System.Web.UI.Page
             else if (type == "multiple")
             {
                 DropDownList ddlval = (DropDownList)cph.FindControl("ddl" + i.ToString());
-                answerList.Add(ddlval.Text);
+                answerList.Add(ddlval.SelectedValue);
             }
             else if (type == "checkbox")
             {
@@ -309,15 +303,18 @@ public partial class FillOut : System.Web.UI.Page
                 int throwaway = 1;
                 foreach (ListItem selected in cbval.Items)
                 {
-                    if (throwaway == 1)
+                    if (selected.Selected == true)
                     {
-                        sb += selected.Text;
+                        if (throwaway == 1)
+                        {
+                            sb += selected.Text;
+                        }
+                        else
+                        {
+                            sb += "," + selected.Text;
+                        }
+                        throwaway++;
                     }
-                    else
-                    {
-                        sb += "," +selected.Text ;
-                    }
-                    throwaway++;
                 }
                 answerList.Add(sb);                
             }
@@ -343,8 +340,6 @@ public partial class FillOut : System.Web.UI.Page
             int instanceid = 0;
             Int32.TryParse(Request.QueryString["instanceid"].ToString(), out instanceid);
             instance.updateInstanceAnswers(usernameBox.Text, formid, instanceid, answerList);
-
-            Session["thisisPostBack"] = true;
             Session["notify"] = "Instance Updated!";
             Response.Redirect("Tracking.aspx?formid="+formid);
         }

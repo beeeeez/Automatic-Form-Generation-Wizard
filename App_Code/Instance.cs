@@ -18,7 +18,7 @@ public class Instance : SQL
 
     public void updateInstanceAnswers(string username, int formid, int instanceid, List<string> answers)
     {
-        string message = "";
+
         SqlConnection connection = new SqlConnection(connString);
         string tablename = username + "_" + formid.ToString() + "_Instance_" + instanceid.ToString();
         string sqlStr = "update " + tablename + " set ";

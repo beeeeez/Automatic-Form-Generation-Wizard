@@ -10,6 +10,7 @@ public partial class Homepage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        Session["instanceid"] = null;
         Session["quesNum"] = 0;
         Forms temp = new Forms();
         displayName.InnerHtml = Session["username"].ToString();
