@@ -20,9 +20,19 @@ public partial class FillOut : System.Web.UI.Page
         else
         {
             user = Session["username"].ToString();
+
         }
-        int formid;
-        Int32.TryParse(Request.QueryString["formid"], out formid);
+        int formid = 0;
+        if (Session["formid"] == null)
+        {
+            Int32.TryParse(Request.QueryString["formid"], out formid);
+        }
+        else
+        {
+            Int32.TryParse(Session["formid"].ToString(), out formid);
+        }
+     
+       
         List<question> qList = sql.getFormStructure(formid, user);
         TextBox formidBox = new TextBox();
         formidBox.Visible = false;
@@ -129,7 +139,21 @@ public partial class FillOut : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if(Request.QueryString["instanceid"] != null)
+        {
+            if (Session["thisisPostBack"] == null)
+            {
+                int instanceid;
+                Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
+                fillOutFields(instanceid);
+                
+            }
+            else
+            {
+                Session["thisisPostBack"] = null;
+            }
+            
+        }
     }
 
     protected DropDownList populateTimes()
@@ -172,7 +196,76 @@ public partial class FillOut : System.Web.UI.Page
 
     }
 
+    protected void fillOutFields(int instanceid)
+    {
+        ContentPlaceHolder mcph = (ContentPlaceHolder)this.Master.FindControl("ContentPlaceHolder1");
+        PlaceHolder cph = (PlaceHolder)mcph.FindControl("create");
 
+        Instance temp = new Instance();
+        TextBox usernameBox = cph.FindControl("user") as TextBox;
+        TextBox formidBox = cph.FindControl("formid") as TextBox;
+        int formid;
+        Int32.TryParse(formidBox.Text, out formid);
+       
+        TextBox qCountBox = (TextBox)cph.FindControl("qCount");
+        int i = 1;
+        int qCount;
+        Int32.TryParse(qCountBox.Text, out qCount);
+        
+        List<string> answerList = temp.getInstanceAnswers(usernameBox.Text, formid, instanceid, qCount);
+
+
+
+        foreach(string answer in answerList) { 
+
+            TextBox typeBox = (TextBox)cph.FindControl("type" + i.ToString());
+            string type = typeBox.Text;
+
+            if (type == "short" || type == "long")
+            {
+                TextBox val = (TextBox)cph.FindControl("tb" + i.ToString());
+                val.Text = answer;
+            }
+            else if (type == "multiple")
+            {
+                DropDownList ddlval = (DropDownList)cph.FindControl("ddl" + i.ToString());
+                ddlval.Text = answer;
+            }
+            else if (type == "checkbox")
+            {
+                CheckBoxList cbval = (CheckBoxList)cph.FindControl("cb" + i.ToString());
+                string[] checkedList = answer.Split(',');
+                
+                foreach(string selected in checkedList)
+                {
+                    foreach(ListItem cbitem in cbval.Items)
+                    {
+                        if(cbitem.Text == selected)
+                        {
+                            cbitem.Selected = true;
+                        }
+
+                    }
+                }
+
+               
+            }
+            else if (type == "datetime")
+            {
+                TextBox date = (TextBox)cph.FindControl("date" + i.ToString());
+                DropDownList time = (DropDownList)cph.FindControl("time" + i.ToString());
+
+                string[] datetimeString = answer.Split('-');
+                date.Text = datetimeString[0];
+                time.Text = datetimeString[1];
+
+            }
+
+            i++;
+        }
+
+
+    }
 
 
 
@@ -245,9 +338,22 @@ public partial class FillOut : System.Web.UI.Page
         Instance instance = new Instance();
         int formid = 0;
         Int32.TryParse(formidBox.Text, out formid);
-        instance.filloutForm(usernameBox.Text, formid, answerList);
-        Session["notification"] = "Form Fill Out Completed!";
-        Response.Redirect("Homepage.aspx");
-        
+        if (Request.QueryString["instanceid"] != null)
+        {
+            int instanceid = 0;
+            Int32.TryParse(Request.QueryString["instanceid"].ToString(), out instanceid);
+            instance.updateInstanceAnswers(usernameBox.Text, formid, instanceid, answerList);
+
+            Session["thisisPostBack"] = true;
+            Session["notify"] = "Instance Updated!";
+            Response.Redirect("Tracking.aspx?formid="+formid);
+        }
+        else
+        {
+            instance.filloutForm(usernameBox.Text, formid, answerList);
+            Session["notification"] = "Form Fill Out Completed!";
+            Response.Redirect("Homepage.aspx");
+        }
     }
+
 }

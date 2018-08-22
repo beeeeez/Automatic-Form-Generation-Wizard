@@ -20,6 +20,7 @@ public partial class Homepage : System.Web.UI.Page
             putStuff.DataSource = bung;
             putStuff.DataMember = bung.Tables[0].TableName;
             putStuff.DataBind();
+            Session["isthereData"] = false;
         }
         else
         {

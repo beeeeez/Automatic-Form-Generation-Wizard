@@ -16,9 +16,69 @@ public class Instance : SQL
         
     }
 
+    public void updateInstanceAnswers(string username, int formid, int instanceid, List<string> answers)
+    {
+        string message = "";
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Instance_" + instanceid.ToString();
+        string sqlStr = "update " + tablename + " set ";
+        int i = 1;
+        foreach(string answer in answers)
+        {
+            if (i == 1)
+            {
+                sqlStr += "a" + i + "=" + "'" + answer + "'";
+            }
+            else
+            {
+                sqlStr += ", a" + i + "=" + "'" + answer + "'";
+            }
+            i++;
+        }
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+
+
+    }
+
+    public List<string> getInstanceAnswers(string username, int formid, int instanceid, int qCount)
+    {
+        List<string> answerList = new List<string>();
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Instance_" + instanceid.ToString();
+        string sqlStr = "select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        int i = 1;
+        while (dataRead.Read()) { 
+        while (i <= qCount)
+        {
+            answerList.Add(dataRead["a" + i].ToString());
+            i++;
+        }
+    }
+
+        connection.Close();
+        return answerList;
+
+    }
     public DataSet populateTrackingTable(string username, int formid)
     {
-
+        string tablename = username + "_" + formid+ "_Instance_Master";
+        DataSet bung = new DataSet();
+        SqlConnection connection = new SqlConnection(connString);
+        string sqlStr = "Select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        SqlDataAdapter dataShmata = new SqlDataAdapter();
+        dataShmata.SelectCommand = commandah;
+        connection.Open();
+        dataShmata.Fill(bung, "fff");
+        connection.Close();
+        HttpContext.Current.Session["isthereData"] = true;
+        return bung;
     }
 
     public void filloutForm(string username, int formid, List<String> answers)

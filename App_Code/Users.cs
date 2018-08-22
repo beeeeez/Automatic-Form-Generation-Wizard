@@ -13,6 +13,29 @@ public class Users : SQL
 
     }
 
+    public string changePassword(string username, string password)
+    {
+        string message = "";
+        try
+        {
+            SqlConnection connection = new SqlConnection(connString);
+            string sqlStr = "update users_key set pass = HASHBYTES('SHA2_512', CONVERT(VARCHAR, @knock)) where username = @Username";
+            SqlCommand commandah = new SqlCommand(sqlStr, connection);
+            commandah.Parameters.AddWithValue("@knock", password);
+            commandah.Parameters.AddWithValue("@Username", username);
+            connection.Open();
+            commandah.ExecuteNonQuery();
+            connection.Close();
+            message = "success";
+            
+        }
+        catch(Exception ex)
+        {
+            message = ex.ToString();
+        }
+        return message;
+    }
+
     public string findUsername(string email)
     {
         string username = ""; 
