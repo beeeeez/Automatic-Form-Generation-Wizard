@@ -55,6 +55,19 @@ public class Forms : SQL
         return qList;
     }
 
+    public void updateStructure(int formid, int totalQ, List<question> qList)
+    {
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = HttpContext.Current.Session["username"].ToString() + "_" + formid.ToString() + "_Structure";
+        string sqlStr = "drop table " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+        createStructure(formid, totalQ, qList);
+        fillStructure(formid, totalQ, qList);
+    }
+
 
     public void createStructure(int formid, int totalQ, List<question> qList)
     {
@@ -137,6 +150,23 @@ public class Forms : SQL
         }
         return formid;
         }
+
+    public string getFormTitle(int formid)
+    {
+        string formtitle = "";
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = HttpContext.Current.Session["username"].ToString() + "_master";
+        string sqlStr = "select * from " + tablename + " where formid = @Formid";
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        commandah.Parameters.AddWithValue("@Formid", formid);
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        while (dataRead.Read())
+        {
+            formtitle = (string)dataRead["form_title"];
+        }
+        return formtitle;
+    }
 
     public DateTime createFormid(string formtitle)
     {

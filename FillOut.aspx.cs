@@ -139,7 +139,7 @@ public partial class FillOut : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!IsPostBack)
+        if(!IsPostBack && Request.QueryString["instanceid"] != null)
         {
 
                 int instanceid;
@@ -327,6 +327,7 @@ public partial class FillOut : System.Web.UI.Page
                 answerList.Add(sb);
 
             }
+
 
             i++;
         }

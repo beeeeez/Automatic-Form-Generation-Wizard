@@ -12,19 +12,32 @@ public partial class FormCreate : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //saveSubmit.Visible = false;
-        if (IsPostBack == true)
-        {
-         
 
+           if (IsPostBack == true && Request.QueryString["formid"] != null  && Request.Form["editFormID"] != null)
+        {
             Forms create = new Forms();
+            List<question> qList = parsePage();
+            int totalQ;
+            Int32.TryParse(Request.Form["totalQ"], out totalQ);
+                            int formid;
+                Int32.TryParse(Request.Form["editFormID"].ToString(), out formid);
+                create.updateStructure(formid, totalQ, qList);
+                Session["notification"] = Request.Form["formtitle"].ToString() + " Updated!";
+                Response.Redirect("Homepage.aspx");
+
+        }
+           else if(IsPostBack == true && Request.QueryString["formid"] == null)
+        {
+            Forms create = new Forms();
+            List<question> qList = parsePage();
+            int totalQ;
+            Int32.TryParse(Request.Form["totalQ"], out totalQ);
             DateTime anchorDate = create.createFormid(Request.Form["formtitle"].ToString());
             int formid = create.getNewFormID(anchorDate);
-            List<question> qList = parsePage();
+
             if (formid != 0)
             {
-                int totalQ;
-                Int32.TryParse(Request.Form["totalQ"], out totalQ);
+
                 create.createInstanceMaster(formid);
                 create.createStructure(formid, totalQ, qList);
                 create.fillStructure(formid, totalQ, qList);
@@ -32,9 +45,80 @@ public partial class FormCreate : System.Web.UI.Page
             Session["notification"] = "Form Created!";
             Response.Redirect("Homepage.aspx");
         }
+
+        else if (Request.QueryString["formid"] != null)
+        {
+            int formid;
+            Int32.TryParse(Request.QueryString["formid"], out formid);
+            TextBox formidBox = new TextBox();
+            formidBox.ID = "sformid";
+            formidBox.Text = Request.QueryString["formid"];
+
+            editPH.Controls.Add(formidBox);
+            Forms temp = new Forms();
+            List<question> qList = temp.getFormStructure(formid, Session["username"].ToString());
+            int i = 0;
+            foreach (question q in qList)
+            {
+                i++;
+                TextBox title = new TextBox();
+                title.Text = q.Title;
+                title.ID = "sq" + i;
+
+                editPH.Controls.Add(title);
+
+                TextBox type = new TextBox();
+                type.Text = q.type;
+                type.ID = "sqtype" + i;
+
+                editPH.Controls.Add(type);
+                if (q.type == "multiple" || q.type == "checkbox")
+                {
+                    TextBox opnum = new TextBox();
+                    opnum.Text = q.opnum.ToString();
+                    opnum.ID = "sopnum" + i;
+
+                    editPH.Controls.Add(opnum);
+                    int j = 1;
+                    foreach (string option in q.options)
+                    {
+                        TextBox optionBox = new TextBox();
+                        optionBox.Text = option;
+                        optionBox.ID = "s" + i + "option" + j;
+
+                        editPH.Controls.Add(optionBox);
+                        j++;
+                    }
+                }
+
+
+            }
+            string titlething = temp.getFormTitle(formid);
+            TextBox questionNum = new TextBox();
+            questionNum.Text = i.ToString();
+            questionNum.ID = "sqnum";
+            editPH.Controls.Add(questionNum);
+            TextBox titleThingBox = new TextBox();
+            titleThingBox.Text = titlething;
+            titleThingBox.ID = "titleThing";
+            editPH.Controls.Add(titleThingBox);
+            header.Text = "<h3>Editing Form " + titlething;
+
+        }
+
+
+        //saveSubmit.Visible = false;
+     
         else
         {
-         
+
+            TextBox formidBox = new TextBox();
+            formidBox.Text = 0.ToString();
+            formidBox.Visible = false;
+            editPH.Controls.Add(formidBox);
+
+            header.Text = "<h3>New Form Creation";
+
         }
     }
 
