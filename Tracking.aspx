@@ -13,7 +13,8 @@
 
     <div class="contain">
     <form runat="server">
-        <asp:Literal ID="notify" runat="server"></asp:Literal>
+           <asp:literal runat="server" id="header"></asp:literal>
+        <asp:Literal ID="notify" runat="server"></asp:Literal> 
     <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" CssClass="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222">
             <Columns>
                  <asp:BoundField DataField="instanceid" HeaderText="Instance ID #" ItemStyle-CssClass="tablething"/>

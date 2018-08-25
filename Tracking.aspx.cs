@@ -10,15 +10,22 @@ public partial class Tracking : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        
+        
         if(Request.QueryString["formid"] == null){
             Response.Redirect("Default.aspx");
         }
         if(Session["notify"] != null)
         {
             notify.Text = "<h3>" + Session["notify"].ToString() + "</h3>";
+            Session["notify"] = "";
         }
         int formid;
         Int32.TryParse(Request.QueryString["formid"].ToString(), out formid);
+        Forms ftemp = new Forms();
+        string formtitle = ftemp.getFormTitle(formid);
+        header.Text = "<h3>Tracking " + formtitle + " -- <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3>";
         Instance temp = new Instance();
         DataSet bung = temp.populateTrackingTable(Session["username"].ToString(), formid);
         Session["formid"] = formid.ToString();

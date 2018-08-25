@@ -31,7 +31,8 @@ public partial class FillOut : System.Web.UI.Page
         {
             Int32.TryParse(Session["formid"].ToString(), out formid);
         }
-     
+        string formT = sql.getFormTitle(formid);
+        header.Text = "<h4>Fill Out " + formT + " <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h4><br />"; 
        
         List<question> qList = sql.getFormStructure(formid, user);
         TextBox formidBox = new TextBox();
@@ -59,13 +60,13 @@ public partial class FillOut : System.Web.UI.Page
             Literal hidden = new Literal();
             Literal script = new Literal();
             TextBox text = new TextBox();
+            Literal gap = new Literal();
             DropDownList multiple = new DropDownList();
             CheckBoxList checkboxlist = new CheckBoxList();
             CheckBox checkbox = new CheckBox();
 
 
-            lit.Text += "<hr />";
-            lit.Text += "<h4>" + q.title + "</h4>";
+            lit.Text = "<hr /><h4>" + q.title + "</h4>";
             create.Controls.Add(lit);
 
             TextBox typeBox = new TextBox();
@@ -79,6 +80,7 @@ public partial class FillOut : System.Web.UI.Page
             if (q.type == "short")
             {
                 text.ID = "tb" + i;
+                text.CssClass = "form-control";
                 create.Controls.Add(text);
             }
             else if (q.type == "long")
@@ -86,6 +88,7 @@ public partial class FillOut : System.Web.UI.Page
                 text.ID = "tb" + i;
                 text.Rows = 7;
                 text.Columns = 55;
+                text.CssClass = "form-control";
                 text.TextMode = TextBoxMode.MultiLine;
                 create.Controls.Add(text);
             }
@@ -97,6 +100,7 @@ public partial class FillOut : System.Web.UI.Page
             {
                 onum = q.opnum;
                 multiple.ID = "ddl" + i;
+                multiple.CssClass = "form-group";
                 foreach (string option in q.options)
                 {
                     multiple.Items.Add(option);
@@ -108,6 +112,7 @@ public partial class FillOut : System.Web.UI.Page
             {
                 onum = q.opnum;
                 checkboxlist.ID = "cb" + i;
+                checkboxlist.CssClass = "form-group";
                 foreach (string option in q.options)
                 {
                     checkboxlist.Items.Add(option);
@@ -125,6 +130,8 @@ public partial class FillOut : System.Web.UI.Page
                 text.ID = "date" + i;
                 create.Controls.Add(script);
                 create.Controls.Add(text);
+                gap.Text = "   At   ";
+                create.Controls.Add(gap);
                 DropDownList time = populateTimes();
                 time.ID = "time" + i.ToString();
                 create.Controls.Add(time);
