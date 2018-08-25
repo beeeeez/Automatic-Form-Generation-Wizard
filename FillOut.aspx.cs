@@ -26,14 +26,16 @@ public partial class FillOut : System.Web.UI.Page
         if (Session["formid"] == null)
         {
             Int32.TryParse(Request.QueryString["formid"], out formid);
+
         }
         else
         {
             Int32.TryParse(Session["formid"].ToString(), out formid);
         }
-        string formT = sql.getFormTitle(formid);
-        header.Text = "<h4>Fill Out " + formT + " <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h4><br />"; 
-       
+        
+            string formT = sql.getFormTitle(formid);
+        header.Text = "<h3>Fill Out  - " + formT + " - <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3><br />";
+
         List<question> qList = sql.getFormStructure(formid, user);
         TextBox formidBox = new TextBox();
         formidBox.Visible = false;
@@ -151,9 +153,21 @@ public partial class FillOut : System.Web.UI.Page
 
                 int instanceid;
                 Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
-                fillOutFields(instanceid);      
+                fillOutFields(instanceid);
+            Forms sql = new Forms();
+            int formid;
+            if (Session["formid"] == null)
+            {
+                Int32.TryParse(Request.QueryString["formid"], out formid);
 
+            }
+            else
+            {
+                Int32.TryParse(Session["formid"].ToString(), out formid);
+            }
 
+            string formT = sql.getFormTitle(formid);
+            header.Text = "<h3>Editing Instance # " + instanceid.ToString() + " - " + formT + "  -- <a href=" + '"' + "tracking.aspx?formid="+formid.ToString() + '"' + ">Return to tracking</a></h3><br />";
         }
     }
 
@@ -196,6 +210,8 @@ public partial class FillOut : System.Web.UI.Page
 
 
     }
+
+
 
     protected void fillOutFields(int instanceid)
     {
@@ -256,9 +272,13 @@ public partial class FillOut : System.Web.UI.Page
                 TextBox date = (TextBox)cph.FindControl("date" + i.ToString());
                 DropDownList time = (DropDownList)cph.FindControl("time" + i.ToString());
 
-                string[] datetimeString = answer.Split('-');
-                date.Text = datetimeString[0];
-                time.Text = datetimeString[1];
+                string[] datetimeString = new string[1];
+                datetimeString = answer.Split('-');
+                if (datetimeString.Length > 1)
+                {
+                    date.Text = datetimeString[0];
+                    time.Text = datetimeString[1];
+                }
 
             }
 

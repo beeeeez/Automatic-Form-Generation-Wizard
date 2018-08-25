@@ -44,7 +44,7 @@
 
     <asp:PlaceHolder ID="create" runat="server"></asp:PlaceHolder>
          <br /><br />
-        <asp:Button ID="Button1" runat="server" Text="Complete Form" OnClick="Button1_Click" CssStyle="btn btn-success" />
+        <asp:Button ID="Button1" runat="server" Text="Complete Form" OnClick="Button1_Click" CssClass="btn btn-success" />
     </form>
      </div>
 

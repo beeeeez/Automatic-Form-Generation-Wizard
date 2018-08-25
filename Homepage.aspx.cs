@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
+
 public partial class Homepage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -21,8 +22,11 @@ public partial class Homepage : System.Web.UI.Page
             putStuff.DataSource = bung;
             putStuff.DataMember = bung.Tables[0].TableName;
             putStuff.DataBind();
+            
             Session["isthereData"] = false;
-        }
+            
+        
+    }
         else
         {
             putStuff.Visible = false;
@@ -44,5 +48,15 @@ public partial class Homepage : System.Web.UI.Page
     {
         Session.Abandon();
         Response.Redirect("Default.aspx");
+    }
+
+    protected void putStuff_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        
+    }
+
+    protected void putStuff_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        putStuff.DataBind();
     }
 }

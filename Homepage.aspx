@@ -14,14 +14,16 @@
     <div class="contain">
         <form runat="server">
 
-        <h2>Welcome back, <span runat="server" id="displayName"></span>! <asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /></h2><br />
+        <h2>Welcome back, <span runat="server" id="displayName"></span>! <asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /></h2><br /><a href="editUser.aspx" class="btn btn-warning">Edit User Account Details</a><br /><br />
         <a href="FormCreate.aspx" class="btn btn-success btn-lg">Create a New Form</a><br /> <br />
-            <asp:placeholder runat="server" id="Notifcation"></asp:placeholder><br />
-        <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" CssClass="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222">
+            <asp:placeholder runat="server" id="Notifcation"></asp:placeholder>
+            <br />
+            <br />
+        <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" CssClass="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222"  Onsorting="putStuff_Sorting" AllowSorting="true">
             <Columns>
-                <asp:BoundField DataField="formid" HeaderText="Form ID #" ItemStyle-CssClass="tablething"/>
-                <asp:BoundField DataField="form_title" HeaderText="Form Title" ItemStyle-CssClass="tablething" />
-                <asp:BoundField DataField="creation_date" HeaderText="Creation Date" ItemStyle-CssClass="tablething" />
+                <asp:BoundField DataField="formid" HeaderText="Form ID #" ItemStyle-CssClass="tablething" SortExpression="formid" />
+                <asp:BoundField DataField="form_title" HeaderText="Form Title" ItemStyle-CssClass="tablething"   SortExpression="form_title"/>
+                <asp:BoundField DataField="creation_date" HeaderText="Creation Date" ItemStyle-CssClass="tablething"  SortExpression="creation_date"/>
                 <asp:HyperLinkField Text="Tracking" DataNavigateUrlFormatString="tracking.aspx?formid={0}" DataNavigateUrlFields="formid" ItemStyle-CssClass="btn btn-primary butt tablething" />
                 <asp:HyperLinkField Text="Edit Form" DataNavigateUrlFormatString="FormCreate.aspx?formid={0}" DataNavigateUrlFields="formid" ItemStyle-CssClass="btn btn-primary butt tablething" />
                 <asp:HyperLinkField Text="Generate URL" DataNavigateUrlFormatString="generateURL.aspx?formid={0}" DataNavigateUrlFields="formid" ItemStyle-CssClass="btn btn-primary butt tablething popup" />

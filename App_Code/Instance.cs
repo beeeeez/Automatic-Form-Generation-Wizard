@@ -16,9 +16,26 @@ public class Instance : SQL
         
     }
 
+    public void deleteInstance(string username, int formid, int instanceid)
+    {
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Instance_" + instanceid.ToString();
+        string sqlStr = "DROP TABLE " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    
+
     public void updateInstanceAnswers(string username, int formid, int instanceid, List<string> answers)
     {
 
+
+        deleteInstance(username, formid, instanceid);
+        createNewInstanceTable(username, formid, instanceid, answers);
+        /*
         SqlConnection connection = new SqlConnection(connString);
         string tablename = username + "_" + formid.ToString() + "_Instance_" + instanceid.ToString();
         string sqlStr = "update " + tablename + " set ";
@@ -39,8 +56,7 @@ public class Instance : SQL
         connection.Open();
         commandah.ExecuteNonQuery();
         connection.Close();
-
-
+        */
     }
 
     public List<string> getInstanceAnswers(string username, int formid, int instanceid, int qCount)
