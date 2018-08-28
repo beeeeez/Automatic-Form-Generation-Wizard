@@ -32,119 +32,133 @@ public partial class FillOut : System.Web.UI.Page
         {
             Int32.TryParse(Session["formid"].ToString(), out formid);
         }
-        
-            string formT = sql.getFormTitle(formid);
-        header.Text = "<h3>Fill Out  - " + formT + " - <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3><br />";
 
-        List<question> qList = sql.getFormStructure(formid, user);
-        TextBox formidBox = new TextBox();
-        formidBox.Visible = false;
-        formidBox.ID = "formid";
-        formidBox.Text = formid.ToString();
-        TextBox username = new TextBox();
-        username.Visible = false;
-        username.ID = "user";
-        username.Text = user;
-        TextBox count = new TextBox();
-        count.Visible = false;
-        count.ID = "qCount";
-
-        create.Controls.Add(formidBox);
-        create.Controls.Add(username);
-
-        int i = 0;
-        int onum;
-        foreach (question q in qList)
+        if (Request.Form["delete"] != null)
         {
-            i++;
-            Literal lit = new Literal();
-            Literal staticText = new Literal();
-            Literal hidden = new Literal();
-            Literal script = new Literal();
-            TextBox text = new TextBox();
-            Literal gap = new Literal();
-            DropDownList multiple = new DropDownList();
-            CheckBoxList checkboxlist = new CheckBoxList();
-            CheckBox checkbox = new CheckBox();
+            int instanceid = 0;
+            Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
+            Instance temp = new Instance();
+            temp.deleteInstance(user, formid, instanceid);
+            temp.removeInstancefromMaster(user, formid, instanceid);
+            Session["notify"] = "Instance #" + instanceid.ToString() + " has been deleted!";
+            Response.Redirect("Homepage.aspx");
 
-
-            lit.Text = "<hr /><h4>" + q.title + "</h4>";
-            create.Controls.Add(lit);
-
-            TextBox typeBox = new TextBox();
-            typeBox.ID = "type" + i.ToString();
-            typeBox.Text = q.type;
-            typeBox.Visible = false;
-
-            create.Controls.Add(typeBox);
-
-
-            if (q.type == "short")
-            {
-                text.ID = "tb" + i;
-                text.CssClass = "form-control";
-                create.Controls.Add(text);
-            }
-            else if (q.type == "long")
-            {
-                text.ID = "tb" + i;
-                text.Rows = 7;
-                text.Columns = 55;
-                text.CssClass = "form-control";
-                text.TextMode = TextBoxMode.MultiLine;
-                create.Controls.Add(text);
-            }
-            else if (q.type == "static")
-            {
-                staticText.Text = "<h4>" + q.title + "</h4>";
-            }
-            else if (q.type == "multiple")
-            {
-                onum = q.opnum;
-                multiple.ID = "ddl" + i;
-                multiple.CssClass = "form-group";
-                foreach (string option in q.options)
-                {
-                    multiple.Items.Add(option);
-                }
-
-                create.Controls.Add(multiple);
-            }
-            else if (q.type == "checkbox")
-            {
-                onum = q.opnum;
-                checkboxlist.ID = "cb" + i;
-                checkboxlist.CssClass = "form-group";
-                foreach (string option in q.options)
-                {
-                    checkboxlist.Items.Add(option);
-                }
-
-                create.Controls.Add(checkboxlist);
-            }
-            else if (q.type == "datetime")
-            {
-
-                script.Text = "<script>$(function() {$('#ContentPlaceHolder1_date" + i.ToString() + "').datepicker(); });</script>";
-                /*
-                script.Text = "<script>$(function() {$(" + '"' + "#datepicker" + '"' + ").datepicker();});</script><input type=" + '"' + "text" + '"' + "id =" + '"' + "datepicker" + '"' + " name=" + '"' + "date" + i.ToString() + '"' + " > At";
-                */
-                text.ID = "date" + i;
-                create.Controls.Add(script);
-                create.Controls.Add(text);
-                gap.Text = "   At   ";
-                create.Controls.Add(gap);
-                DropDownList time = populateTimes();
-                time.ID = "time" + i.ToString();
-                create.Controls.Add(time);
-            }
-            
         }
-        count.Text = i.ToString();
-        count.Visible = false;
-        create.Controls.Add(count);
-    }
+        else
+        {
 
+            string formT = sql.getFormTitle(formid);
+            header.Text = "<h3>Fill Out  - " + formT + " - <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3><br /><br />";
+
+            List<question> qList = sql.getFormStructure(formid, user);
+            TextBox formidBox = new TextBox();
+            formidBox.Visible = false;
+            formidBox.ID = "formid";
+            formidBox.Text = formid.ToString();
+            TextBox username = new TextBox();
+            username.Visible = false;
+            username.ID = "user";
+            username.Text = user;
+            TextBox count = new TextBox();
+            count.Visible = false;
+            count.ID = "qCount";
+
+            create.Controls.Add(formidBox);
+            create.Controls.Add(username);
+
+            int i = 0;
+            int onum;
+            foreach (question q in qList)
+            {
+                i++;
+                Literal lit = new Literal();
+                Literal staticText = new Literal();
+                Literal hidden = new Literal();
+                Literal script = new Literal();
+                TextBox text = new TextBox();
+                Literal gap = new Literal();
+                DropDownList multiple = new DropDownList();
+                CheckBoxList checkboxlist = new CheckBoxList();
+                CheckBox checkbox = new CheckBox();
+
+
+                lit.Text = "<hr /><h4>" + q.title + "</h4>";
+                create.Controls.Add(lit);
+
+                TextBox typeBox = new TextBox();
+                typeBox.ID = "type" + i.ToString();
+                typeBox.Text = q.type;
+                typeBox.Visible = false;
+
+                create.Controls.Add(typeBox);
+
+
+                if (q.type == "short")
+                {
+                    text.ID = "tb" + i;
+                    text.CssClass = "form-control";
+                    create.Controls.Add(text);
+                }
+                else if (q.type == "long")
+                {
+                    text.ID = "tb" + i;
+                    text.Rows = 7;
+                    text.Columns = 55;
+                    text.CssClass = "form-control";
+                    text.TextMode = TextBoxMode.MultiLine;
+                    create.Controls.Add(text);
+                }
+                else if (q.type == "static")
+                {
+                    staticText.Text = "<h4>" + q.title + "</h4>";
+                }
+                else if (q.type == "multiple")
+                {
+                    onum = q.opnum;
+                    multiple.ID = "ddl" + i;
+                    multiple.CssClass = "form-group";
+                    foreach (string option in q.options)
+                    {
+                        multiple.Items.Add(option);
+                    }
+
+                    create.Controls.Add(multiple);
+                }
+                else if (q.type == "checkbox")
+                {
+                    onum = q.opnum;
+                    checkboxlist.ID = "cb" + i;
+                    checkboxlist.CssClass = "form-group";
+                    foreach (string option in q.options)
+                    {
+                        checkboxlist.Items.Add(option);
+                    }
+
+                    create.Controls.Add(checkboxlist);
+                }
+                else if (q.type == "datetime")
+                {
+
+                    script.Text = "<script>$(function() {$('#ContentPlaceHolder1_date" + i.ToString() + "').datepicker(); });</script>";
+                    /*
+                    script.Text = "<script>$(function() {$(" + '"' + "#datepicker" + '"' + ").datepicker();});</script><input type=" + '"' + "text" + '"' + "id =" + '"' + "datepicker" + '"' + " name=" + '"' + "date" + i.ToString() + '"' + " > At";
+                    */
+                    text.ID = "date" + i;
+                    create.Controls.Add(script);
+                    create.Controls.Add(text);
+                    gap.Text = "   At   ";
+                    create.Controls.Add(gap);
+                    DropDownList time = populateTimes();
+                    time.ID = "time" + i.ToString();
+                    create.Controls.Add(time);
+                }
+
+            }
+            count.Text = i.ToString();
+            count.Visible = false;
+            create.Controls.Add(count);
+        }
+    }
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -153,6 +167,8 @@ public partial class FillOut : System.Web.UI.Page
 
                 int instanceid;
                 Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
+
+
                 fillOutFields(instanceid);
             Forms sql = new Forms();
             int formid;
@@ -215,6 +231,13 @@ public partial class FillOut : System.Web.UI.Page
 
     protected void fillOutFields(int instanceid)
     {
+
+        Button deleteBtn = new Button();
+        deleteBtn.CssClass = "btn btn-danger";
+        deleteBtn.OnClientClick = "jsDelete()";
+        deleteBtn.Text = "Delete this Instance";
+        deleteBtnPH.Controls.Add(deleteBtn);
+
         ContentPlaceHolder mcph = (ContentPlaceHolder)this.Master.FindControl("ContentPlaceHolder1");
         PlaceHolder cph = (PlaceHolder)mcph.FindControl("create");
 
@@ -352,6 +375,12 @@ public partial class FillOut : System.Web.UI.Page
 
                 string sb = date.Text + "-" + time.Text;
                 answerList.Add(sb);
+
+            }
+            else if (type == "static")
+            {
+
+                answerList.Add("static_text");
 
             }
 

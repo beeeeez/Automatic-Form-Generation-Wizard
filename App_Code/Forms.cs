@@ -210,4 +210,44 @@ public class Forms : SQL
           
         }
     }
+
+    public void deleteFormStructure(string username, int formid)
+    {
+        string tablename = username + "_" + formid.ToString() + "_Structure";
+        SqlConnection connection = new SqlConnection(connString);
+        string sqlStr = "Drop Table " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+        removeFormEntry(username, formid);
+    }
+
+    public void deleteAllInstances(string username, int formid)
+    {
+        Instance temp = new Instance();
+        List<int> instanceIdList =temp.returnInstanceIDs(username, formid);
+        foreach(int instanceid in instanceIdList)
+        {
+            temp.deleteInstance(username, formid, instanceid);
+        }
+        temp.deleteInstanceMaster(username, formid);
+        
+    }
+
+    public void removeFormEntry(string username, int formid)
+    {
+        string tablename = username + "_Master";
+        SqlConnection connection = new SqlConnection(connString);
+        string sqlStr = "Delete from " + tablename + " where formid = @Formid";
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        commandah.Parameters.AddWithValue("@Formid", formid);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+
+    }
+
+
+
 }

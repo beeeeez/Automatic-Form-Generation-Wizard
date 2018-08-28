@@ -36,6 +36,8 @@
         }
 
     </style>
+
+
 </asp:Content>
 
 
@@ -168,6 +170,11 @@
                     $("#create").append(tDiv);
 
                 };
+
+                function jsDelete() {
+                    let del = '<input type="hidden" value="true" name="delete" id="delete" />';
+                    $("#create").append(del);
+                }
 
 
                 $("#addBtn").click(addQuestion);

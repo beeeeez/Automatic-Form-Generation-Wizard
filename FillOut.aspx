@@ -33,13 +33,22 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	
 	<script type="text/javascript" src="timepick/bootstrap-datepicker.js"></script>
+    <script>
+
+            function jsDelete() {
+                let del = '<input type="hidden" value="true" name="delete" id="delete" />';
+                $("#create").append(del);
+            }
+
+    </script>
 	<link rel="stylesheet" type="text/css" href="timepick/bootstrap-datepicker.css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <div class="contain">
     <form action="#" method="post" runat="server">
-        <asp:Literal ID="header" runat="server"></asp:Literal>
+        <asp:Literal ID="header" runat="server"></asp:Literal><br />
+        <asp:PlaceHolder ID="deleteBtnPH" runat="server"></asp:PlaceHolder>
    
 
     <asp:PlaceHolder ID="create" runat="server"></asp:PlaceHolder>

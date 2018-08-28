@@ -27,7 +27,30 @@ public class Instance : SQL
         connection.Close();
     }
 
-    
+    public void removeInstancefromMaster(string username, int formid, int instanceid)
+    {
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Instance_Master" ;
+        string sqlStr = "Delete From " + tablename + " where instanceid = @Instanceid";
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        commandah.Parameters.AddWithValue("@Instanceid", instanceid);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+    }
+
+
+    public void deleteInstanceMaster(string username, int formid)
+    {
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Instance_Master";
+        string sqlStr = "DROP TABLE " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        commandah.ExecuteNonQuery();
+        connection.Close();
+    }
+
 
     public void updateInstanceAnswers(string username, int formid, int instanceid, List<string> answers)
     {
@@ -190,6 +213,28 @@ public class Instance : SQL
         connection.Close();
 
     }
+
+    public List<int> returnInstanceIDs(string username, int formid)
+    {
+        List<int> count = new List<int>();
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid.ToString() + "_Instance_Master";
+        string sqlStr = "Select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        while (dataRead.Read())
+        {
+            int idnum = 0;
+            Int32.TryParse(dataRead["instanceid"].ToString(), out idnum);
+            count.Add(idnum);
+        }
+        connection.Close();
+        return count;
+
+    }
+
+
 
    
 }

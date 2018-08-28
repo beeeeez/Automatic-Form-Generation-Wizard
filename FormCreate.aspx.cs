@@ -10,23 +10,28 @@ using System.Web.UI.WebControls;
 
 public partial class FormCreate : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
 
-           if (IsPostBack == true && Request.QueryString["formid"] != null  && Request.Form["editFormID"] != null)
+    protected void Page_Init(Object sender, EventArgs e)
+    {
+        if(Request.Form["delete"] != null)
+        {
+            deleteForm();
+
+        }
+        else if (IsPostBack == true && Request.QueryString["formid"] != null && Request.Form["editFormID"] != null)
         {
             Forms create = new Forms();
             List<question> qList = parsePage();
             int totalQ;
             Int32.TryParse(Request.Form["totalQ"], out totalQ);
-                            int formid;
-                Int32.TryParse(Request.Form["editFormID"].ToString(), out formid);
-                create.updateStructure(formid, totalQ, qList);
-                Session["notification"] = Request.Form["formtitle"].ToString() + " Updated!";
-                Response.Redirect("Homepage.aspx");
+            int formid;
+            Int32.TryParse(Request.Form["editFormID"].ToString(), out formid);
+            create.updateStructure(formid, totalQ, qList);
+            Session["notification"] = Request.Form["formtitle"].ToString() + " Updated!";
+            Response.Redirect("Homepage.aspx");
 
         }
-           else if(IsPostBack == true && Request.QueryString["formid"] == null)
+        else if (IsPostBack == true && Request.QueryString["formid"] == null)
         {
             Forms create = new Forms();
             List<question> qList = parsePage();
@@ -55,10 +60,14 @@ public partial class FormCreate : System.Web.UI.Page
             formidBox.Text = Request.QueryString["formid"];
             Button deleteBtn = new Button();
             deleteBtn.CssClass = "btn btn-danger";
-            deleteBtn.Click += new EventHandler(deleteForm);
+            deleteBtn.OnClientClick = "jsDelete()";
             deleteBtn.Text = "Delete this Form";
             deleteBtnLit.Controls.Add(deleteBtn);
-            
+
+
+
+
+
             editPH.Controls.Add(formidBox);
             Forms temp = new Forms();
             List<question> qList = temp.getFormStructure(formid, Session["username"].ToString());
@@ -113,7 +122,7 @@ public partial class FormCreate : System.Web.UI.Page
 
 
         //saveSubmit.Visible = false;
-     
+
         else
         {
 
@@ -125,10 +134,22 @@ public partial class FormCreate : System.Web.UI.Page
             header.Text = "<h3>New Form Creation";
 
         }
+
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
     }
 
-    protected void deleteForm(object sender, EventArgs e)
+    protected void deleteForm()
     {
+        Forms temp = new Forms();
+        int formid = 0;
+        Int32.TryParse(Request.QueryString["formid"].ToString(), out formid);
+        temp.deleteAllInstances(Session["username"].ToString(), formid);
+        temp.deleteFormStructure(Session["username"].ToString(), formid);
+        Session["notification"] = Request.Form["formtitle"].ToString() + " has been deleted!";
+        Response.Redirect("Homepage.aspx");
 
     }
 
