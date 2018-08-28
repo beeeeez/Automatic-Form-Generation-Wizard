@@ -53,7 +53,12 @@ public partial class FormCreate : System.Web.UI.Page
             TextBox formidBox = new TextBox();
             formidBox.ID = "sformid";
             formidBox.Text = Request.QueryString["formid"];
-
+            Button deleteBtn = new Button();
+            deleteBtn.CssClass = "btn btn-danger";
+            deleteBtn.Click += new EventHandler(deleteForm);
+            deleteBtn.Text = "Delete this Form";
+            deleteBtnLit.Controls.Add(deleteBtn);
+            
             editPH.Controls.Add(formidBox);
             Forms temp = new Forms();
             List<question> qList = temp.getFormStructure(formid, Session["username"].ToString());
@@ -120,6 +125,11 @@ public partial class FormCreate : System.Web.UI.Page
             header.Text = "<h3>New Form Creation";
 
         }
+    }
+
+    protected void deleteForm(object sender, EventArgs e)
+    {
+
     }
 
 

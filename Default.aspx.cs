@@ -11,7 +11,11 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if(Session["notify"] != null)
+        {
+            notify.Text = Session["notify"].ToString();
+            Session["notify"] = "";
+        }
     }
 
     protected void loginBtn_Click(object sender, EventArgs e)

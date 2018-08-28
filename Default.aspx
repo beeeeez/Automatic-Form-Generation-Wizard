@@ -22,13 +22,14 @@
 
         <div class="form-group">
       <label for="user">Username :</label>
-      <asp:TextBox runat="server" CssClass="form-control" id="username"></asp:TextBox>
+      <asp:TextBox runat="server" CssClass="form-control" id="username" required></asp:TextBox>
       </div>
     <div class="form-group">
       <label for="pass">Password :</label>
-      <asp:TextBox runat="server" CssClass="form-control" id="password" TextMode="Password"></asp:TextBox>
+      <asp:TextBox runat="server" CssClass="form-control" id="password" TextMode="Password" required></asp:TextBox>
       </div>
         <br />
+      <asp:Literal ID="notify" runat="server"></asp:Literal>
     <asp:Literal ID="loginerror" runat="server" Visible="false"><h6>Incorrect Username or Password</h6>
         </asp:Literal>
 

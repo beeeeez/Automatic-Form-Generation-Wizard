@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="App_Themes/darkly/bootstrap.min.css" />
 
     <asp:ContentPlaceHolder id="head" runat="server">
+
+
     </asp:ContentPlaceHolder>
 </head>
 <body>

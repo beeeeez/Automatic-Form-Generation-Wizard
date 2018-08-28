@@ -27,6 +27,7 @@ public partial class registration : System.Web.UI.Page
             temp.registerUser(username.Text, password.Text, email.Text);
             if (Session["errorMsg"].ToString() == "")
             {
+                Session["notify"] = "You can now login using the inputted credentials!";
                 Response.BufferOutput = true;
                 Response.Redirect("Default.aspx");
             }

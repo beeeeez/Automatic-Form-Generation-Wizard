@@ -14,6 +14,9 @@
             margin-right: 2%;
             margin-top: 2%;
         }
+        .btn-primary{
+            margin-top:20px;
+        }
 
         .inlineBtn {
             margin-left:5%;
@@ -44,9 +47,10 @@
        
         <div id="inner">
             <asp:literal runat="server" id="header"></asp:literal> -- <a href="Homepage.aspx">Return to Homepage</a>
-            <br />
+            <br /><br /> <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br /><br />
             <h4>What is your form's title? :</h4>
-            <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" required />
+            <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" required /><br />
+           
             <input type="text" id="editFormID" name="editFormID" value="false"/>
             <label id="errLbl"></label>
             <div id="create"></div><hr />
@@ -78,32 +82,37 @@
                         for (let i = 1; i <= $(b + "sqnum").val() ; i++) {
                             if ($(b + "sqtype" + i).val() == "static") {
                                 addText();
-                                $("#tb"+i).val($(b+"sq"+i).val());
-                                $("#ddl"+i).val($(b+"sq"+i)).val();
+                                $("#tb" + i).val($(b + "sq" + i).val());
+                                $("#ddl" + i).val($(b + "sq" + i)).val();
+                                $(b + "sq" + i).css({ "display": "none" });
+                                $(b + "sqtype" + i).css({ "display": "none" });
                             }
-                            addQuestion();
-                            
-                            $("#tb" + i).val($(b + "sq" + i).val());
-                            $(b + "sq" + i).css({ "display": "none" });
-                            $("#ddl" + i).val($(b + "sqtype" + i).val());
-                            $(b + "sqtype" + i).css({ "display": "none" });
-                            if ($(b + "sqtype" + i).val() == "multiple" || $(b + "sqtype" + i).val() == "checkbox") {
-                                ddlChange(i);
-                                for (let j = 1; j <= $(b + "sopnum" + i).val() ; j++) {
-                                    $(b + "sopnum" + i).css({ "display": "none" });
-                                    if (j == 1 || j == 2) {
-                                        $("#q" + i + "Option" + j).val($(b + "s" + i + "option" + j).val());
-                                        $(b + "s" + i + "option" + j).css({ "display": "none" });
-                                    }
-                                    else {
-                                        addOption(i);
-                                        $("#q" + i + "Option" + j).val($(b + "s" + i + "option" + j).val());
-                                        $(b + "s" + i + "option" + j).css({ "display": "none" });
+                            else {
+                                addQuestion();
+
+                                $("#tb" + i).val($(b + "sq" + i).val());
+                                $(b + "sq" + i).css({ "display": "none" });
+                                $("#ddl" + i).val($(b + "sqtype" + i).val());
+                                $(b + "sqtype" + i).css({ "display": "none" });
+                                if ($(b + "sqtype" + i).val() == "multiple" || $(b + "sqtype" + i).val() == "checkbox") {
+                                    ddlChange(i);
+                                    for (let j = 1; j <= $(b + "sopnum" + i).val() ; j++) {
+                                        $(b + "sopnum" + i).css({ "display": "none" });
+                                        if (j == 1 || j == 2) {
+                                            $("#q" + i + "Option" + j).val($(b + "s" + i + "option" + j).val());
+                                            $(b + "s" + i + "option" + j).css({ "display": "none" });
+                                        }
+                                        else {
+                                            addOption(i);
+                                            $("#q" + i + "Option" + j).val($(b + "s" + i + "option" + j).val());
+                                            $(b + "s" + i + "option" + j).css({ "display": "none" });
+                                        }
                                     }
                                 }
                             }
+                            $(b + "sqnum").css({ "display": "none" })
                         }
-                        $(b+"sqnum").css({ "display": "none" })
+                     
                    
                    }
                 }
@@ -154,7 +163,7 @@
                 
                 function addText(){
                     qnum = parseInt($("#totalQ").val()) + 1;
-                    let tDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Static Text -  #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="hidden" id="ddl' + qnum + '"  name="ddl' + qnum + '"value="static" /><textarea id="tb' + qnum + '" cols="40" rows="5" placeholder="Untitled Static Text" class="form-control"></textarea><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn">Delete this Static Text</span><hr /></div> ';
+                    let tDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Static Text -  #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="hidden" id="ddl' + qnum + '"  name="ddl' + qnum + '"value="static" /><textarea id="tb' + qnum + '" cols="40" rows="5" name="tb' + qnum + '" placeholder="Untitled Static Text" class="form-control"></textarea><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn">Delete this Static Text</span><hr /></div> ';
                     $("#totalQ").val(qnum);
                     $("#create").append(tDiv);
 
@@ -168,7 +177,7 @@
 
 
                     qnum = parseInt($("#totalQ").val()) + 1;
-                    let qDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Question #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="text" id="tb' + qnum + '"  name="tb' + qnum + '" placeholder="Untitled Question" class="form-control" style="width:50%;" required><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn">Delete this Question</span><br /><label>What is the input type? :</label><br /><select id="ddl' + qnum + '"  name="ddl' + qnum + '" onchange="ddlChange(' + qnum + ')"><option value="short">Short Text</option><option value="long">Long Text</option><option value="multiple">Multiple Choice</option><option value="checkbox">Checkboxes</option><option value="datetime">Date & Time</option></select></div>';
+                    let qDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Question #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="text" id="tb' + qnum + '"  name="tb' + qnum + '" placeholder="Untitled Question" class="form-control" style="width:50%;" required><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn">Delete this Question</span><br /><br /><label>What is the input type? :</label><br /><select id="ddl' + qnum + '"  name="ddl' + qnum + '" onchange="ddlChange(' + qnum + ')"><option value="short">Short Text</option><option value="long">Long Text</option><option value="multiple">Multiple Choice</option><option value="checkbox">Checkboxes</option><option value="datetime">Date & Time</option></select></div>';
                     $("#totalQ").val(qnum);
                     $("#create").append(qDiv);
 

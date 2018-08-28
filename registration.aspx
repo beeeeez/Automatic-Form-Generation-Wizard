@@ -22,19 +22,19 @@
 
         <div class="form-group">
       <label>Username :</label>
-      <asp:TextBox runat="server" type="text" class="form-control" id="username" aria-describedby="username" placeholder="Enter Username"></asp:TextBox>
+      <asp:TextBox runat="server" type="text" class="form-control" id="username" aria-describedby="username" placeholder="Enter Username" required></asp:TextBox>
       </div>
     <div class="form-group">
       <label>Password :</label>
-      <asp:TextBox runat="server" type="text" class="form-control" id="password" aria-describedby="password" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
+      <asp:TextBox runat="server" type="text" class="form-control" id="password" aria-describedby="password" placeholder="Enter Password" TextMode="Password" required></asp:TextBox>
       </div>
         <div class="form-group">
       <label>Confirm Password :</label>
-      <asp:TextBox runat="server" type="text" class="form-control" id="confirm" placeholder="Confirm Password" TextMode="Password"></asp:TextBox>
+      <asp:TextBox runat="server" type="text" class="form-control" id="confirm" placeholder="Confirm Password" TextMode="Password" required></asp:TextBox>
       </div>
         <div class="form-group">
       <label>Email Address :</label>
-      <asp:TextBox runat="server" type="text" class="form-control" id="email" placeholder="Enter Email Address"></asp:TextBox>
+      <asp:TextBox runat="server" type="text" class="form-control" id="email" placeholder="Enter Email Address" required></asp:TextBox>
       </div><br />
         
         <div id="errorDiv" runat="server"></div>

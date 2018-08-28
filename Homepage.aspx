@@ -7,6 +7,7 @@
         .tablething {padding:2%; border-style:none; margin-bottom:2%;}
         .butt {margin-left: 2%; margin-right: 2%;}
         .notify {color:green;}
+        .btn {margin-bottom:0.5%}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">

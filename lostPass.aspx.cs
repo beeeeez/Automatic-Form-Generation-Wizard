@@ -44,6 +44,9 @@ public partial class lostPass : System.Web.UI.Page
                 client.Credentials = basicauthenticationinfo;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.Send(msg);
+                Session["notify"] = "Check your email address for the user account details!";
+                Response.BufferOutput = true;
+                Response.Redirect("Default.aspx");
             }
         }
         catch (Exception ex)
