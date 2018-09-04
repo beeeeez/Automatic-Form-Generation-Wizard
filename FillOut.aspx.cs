@@ -11,6 +11,8 @@ public partial class FillOut : System.Web.UI.Page
     protected void Page_Init(Object sender, EventArgs e)
     {
 
+
+
         Forms sql = new Forms();
         string user;
         if (Session["username"] == null)
@@ -23,7 +25,7 @@ public partial class FillOut : System.Web.UI.Page
 
         }
         int formid = 0;
-        if (Session["formid"] == null)
+        if (Request.QueryString["formid"] != null)
         {
             Int32.TryParse(Request.QueryString["formid"], out formid);
 
@@ -32,21 +34,12 @@ public partial class FillOut : System.Web.UI.Page
         {
             Int32.TryParse(Session["formid"].ToString(), out formid);
         }
-
-        if (Request.Form["delete"] != null)
+        if (Request.Form["deleteInstance"] != null)
         {
-            int instanceid = 0;
-            Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
-            Instance temp = new Instance();
-            temp.deleteInstance(user, formid, instanceid);
-            temp.removeInstancefromMaster(user, formid, instanceid);
-            Session["notify"] = "Instance #" + instanceid.ToString() + " has been deleted!";
-            Response.Redirect("Homepage.aspx");
-
+            deleteInstance(formid);
         }
         else
         {
-
             string formT = sql.getFormTitle(formid);
             header.Text = "<h3>Fill Out  - " + formT + " - <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3><br /><br />";
 
@@ -158,18 +151,29 @@ public partial class FillOut : System.Web.UI.Page
             count.Visible = false;
             create.Controls.Add(count);
         }
+
+
+
+
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!IsPostBack && Request.QueryString["instanceid"] != null)
+        if (!IsPostBack && Request.QueryString["instanceid"] != null)
         {
 
-                int instanceid;
-                Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
+            int instanceid;
+            Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
 
 
-                fillOutFields(instanceid);
+            fillOutFields(instanceid);
+
+            Button deleteBtn = new Button();
+            deleteBtn.CssClass = "btn btn-danger";
+            deleteBtn.OnClientClick = "jsDelete()";
+            deleteBtn.Text = "Delete this Instance";
+            deleteBtnLit.Controls.Add(deleteBtn);
+
             Forms sql = new Forms();
             int formid;
             if (Session["formid"] == null)
@@ -183,14 +187,14 @@ public partial class FillOut : System.Web.UI.Page
             }
 
             string formT = sql.getFormTitle(formid);
-            header.Text = "<h3>Editing Instance # " + instanceid.ToString() + " - " + formT + "  -- <a href=" + '"' + "tracking.aspx?formid="+formid.ToString() + '"' + ">Return to tracking</a></h3><br />";
+            header.Text = "<h3>Editing Instance # " + instanceid.ToString() + " - " + formT + "  -- <a href=" + '"' + "tracking.aspx?formid=" + formid.ToString() + '"' + ">Return to tracking</a></h3><br />";
         }
     }
 
     protected DropDownList populateTimes()
     {
         DropDownList ddl = new DropDownList();
-        
+
         string f = ":15";
         string t = ":30";
         string on = ":00";
@@ -204,8 +208,8 @@ public partial class FillOut : System.Web.UI.Page
         {
             ddl.Items.Add(h.ToString() + on + am);
             ddl.Items.Add(h.ToString() + f + am);
-            ddl.Items.Add(h.ToString() + t +am);
-            ddl.Items.Add(h.ToString() + f +am);
+            ddl.Items.Add(h.ToString() + t + am);
+            ddl.Items.Add(h.ToString() + f + am);
 
         }
         ddl.Items.Add("12" + on + pm);
@@ -227,16 +231,21 @@ public partial class FillOut : System.Web.UI.Page
 
     }
 
+    protected void deleteInstance(int formid)
+    {
 
+        string user = Session["username"].ToString();
+        int instanceid = 0;
+        Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
+        Instance temp = new Instance();
+        temp.deleteInstance(user, formid, instanceid);
+        temp.removeInstancefromMaster(user, formid, instanceid);
+        Session["notify"] = "Instance #" + instanceid.ToString() + " has been deleted!";
+        Response.Redirect("Tracking.aspx?formid="+formid.ToString());
+    }
 
     protected void fillOutFields(int instanceid)
     {
-
-        Button deleteBtn = new Button();
-        deleteBtn.CssClass = "btn btn-danger";
-        deleteBtn.OnClientClick = "jsDelete()";
-        deleteBtn.Text = "Delete this Instance";
-        deleteBtnPH.Controls.Add(deleteBtn);
 
         ContentPlaceHolder mcph = (ContentPlaceHolder)this.Master.FindControl("ContentPlaceHolder1");
         PlaceHolder cph = (PlaceHolder)mcph.FindControl("create");
@@ -246,17 +255,18 @@ public partial class FillOut : System.Web.UI.Page
         TextBox formidBox = cph.FindControl("formid") as TextBox;
         int formid;
         Int32.TryParse(formidBox.Text, out formid);
-       
+
         TextBox qCountBox = (TextBox)cph.FindControl("qCount");
         int i = 1;
         int qCount;
         Int32.TryParse(qCountBox.Text, out qCount);
-        
+
         List<string> answerList = temp.getInstanceAnswers(usernameBox.Text, formid, instanceid, qCount);
 
 
 
-        foreach(string answer in answerList) { 
+        foreach (string answer in answerList)
+        {
 
             TextBox typeBox = (TextBox)cph.FindControl("type" + i.ToString());
             string type = typeBox.Text;
@@ -275,12 +285,12 @@ public partial class FillOut : System.Web.UI.Page
             {
                 CheckBoxList cbval = (CheckBoxList)cph.FindControl("cb" + i.ToString());
                 string[] checkedList = answer.Split(',');
-                
-                foreach(string selected in checkedList)
+
+                foreach (string selected in checkedList)
                 {
-                    foreach(ListItem cbitem in cbval.Items)
+                    foreach (ListItem cbitem in cbval.Items)
                     {
-                        if(cbitem.Text == selected)
+                        if (cbitem.Text == selected)
                         {
                             cbitem.Selected = true;
                         }
@@ -288,7 +298,7 @@ public partial class FillOut : System.Web.UI.Page
                     }
                 }
 
-               
+
             }
             else if (type == "datetime")
             {
@@ -326,7 +336,7 @@ public partial class FillOut : System.Web.UI.Page
         int i = 1;
 
 
- 
+
         int qCount;
         Int32.TryParse(qCountBox.Text, out qCount);
         List<string> answerList = new List<string>();
@@ -366,7 +376,7 @@ public partial class FillOut : System.Web.UI.Page
                         throwaway++;
                     }
                 }
-                answerList.Add(sb);                
+                answerList.Add(sb);
             }
             else if (type == "datetime")
             {
@@ -398,7 +408,7 @@ public partial class FillOut : System.Web.UI.Page
             Int32.TryParse(Request.QueryString["instanceid"].ToString(), out instanceid);
             instance.updateInstanceAnswers(usernameBox.Text, formid, instanceid, answerList);
             Session["notify"] = "Instance Updated!";
-            Response.Redirect("Tracking.aspx?formid="+formid);
+            Response.Redirect("Tracking.aspx?formid=" + formid);
         }
         else
         {

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="lostPass.aspx.cs" Inherits="lostPass" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="lostPass.aspx.cs" Inherits="lostPass" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
         <style>

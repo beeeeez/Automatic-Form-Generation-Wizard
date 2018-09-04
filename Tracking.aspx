@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Tracking.aspx.cs" Inherits="Tracking" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="Tracking.aspx.cs" Inherits="Tracking" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
      <style>
@@ -6,7 +6,7 @@
         #displayName {display:inline;}
         .tablething {padding:2%; border-style:none; margin-bottom:2%;}
         .butt {margin-left: 2%; margin-right: 2%;}
-        .notify {color:green;}
+        #notify {color:green;}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">

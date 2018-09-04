@@ -18,7 +18,7 @@ public partial class Tracking : System.Web.UI.Page
         }
         if(Session["notify"] != null)
         {
-            notify.Text = "<h3>" + Session["notify"].ToString() + "</h3>";
+            notify.Text = "<h4>" + Session["notify"].ToString() + "</h4>";
             Session["notify"] = "";
         }
         int formid;

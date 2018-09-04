@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="FormCreate.aspx.cs" Inherits="FormCreate" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="FormCreate.aspx.cs" Inherits="FormCreate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -49,7 +49,7 @@
        
         <div id="inner">
             <asp:literal runat="server" id="header"></asp:literal> -- <a href="Homepage.aspx">Return to Homepage</a>
-            <br /><br /> <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br /><br />
+            <br /> <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br />
             <h4>What is your form's title? :</h4>
             <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" required /><br />
            

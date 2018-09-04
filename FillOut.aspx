@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="FillOut.aspx.cs" Inherits="FillOut" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="FillOut.aspx.cs" Inherits="FillOut" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <style>
@@ -26,29 +26,20 @@
         }
 
     </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-	<script type="text/javascript" src="timepick/bootstrap-datepicker.js"></script>
-    <script>
+ 
 
-            function jsDelete() {
-                let del = '<input type="hidden" value="true" name="delete" id="delete" />';
-                $("#create").append(del);
-            }
-
-    </script>
-	<link rel="stylesheet" type="text/css" href="timepick/bootstrap-datepicker.css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-    <div class="contain">
-    <form action="#" method="post" runat="server">
+    <div class="contain"> 
+    <form action="#" method="post" runat="server"><div id="deletething"></div>
         <asp:Literal ID="header" runat="server"></asp:Literal><br />
-        <asp:PlaceHolder ID="deleteBtnPH" runat="server"></asp:PlaceHolder>
+       <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder>
    
 
     <asp:PlaceHolder ID="create" runat="server"></asp:PlaceHolder>
@@ -56,6 +47,13 @@
         <asp:Button ID="Button1" runat="server" Text="Complete Form" OnClick="Button1_Click" CssClass="btn btn-success" />
     </form>
      </div>
+        <script>
 
+            function jsDelete() {
+                let del = '<input type="hidden" value="true" name="deleteInstance" id="deleteInstance" />';
+                $("#deletething").append(del);
+            };
+
+    </script>
 </asp:Content>
 
