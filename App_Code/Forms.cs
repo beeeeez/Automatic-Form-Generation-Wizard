@@ -248,6 +248,48 @@ public class Forms : SQL
 
     }
 
+    public List<hpTableEntry> pullMasterList(string username)
+    {
+        List<hpTableEntry> masterList = new List<hpTableEntry>();
+        string tablename = username + "_Master";
+        SqlConnection connection = new SqlConnection(connString);
+        string sqlStr = "Select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();       
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        while (dataRead.Read())
+        {
+            int tempID = 0;
+            Int32.TryParse(dataRead["formid"].ToString(), out tempID);
+            string tempTitle = dataRead["formtitle"].ToString();
+            DateTime tempDT = (DateTime)dataRead["creation_date"];
+            int tempInstanceCount = getNumberOfInstances(username, tempID);
+
+            hpTableEntry tempEntry = new hpTableEntry(tempID, tempTitle, tempDT, tempInstanceCount);
+            masterList.Add(tempEntry);
+
+        }
+        connection.Close();
+        return masterList;
+    }
+
+    public int getNumberOfInstances(string username, int formid)
+    {
+        int numIns = 0;
+        string tablename = username + "_" + formid.ToString() + "_Instance_Master";
+        SqlConnection connection = new SqlConnection(connString);
+        string sqlStr = "Select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        while (dataRead.Read())
+        {
+            numIns++;
+        }
+        connection.Close();
+        return numIns;
+    }
 
 
-}
+
+    }

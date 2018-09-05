@@ -20,6 +20,8 @@
             <asp:placeholder runat="server" id="Notifcation"></asp:placeholder>
             <br />
             <br />
+            <asp:PlaceHolder ID="homepageTablePH" runat="server"></asp:PlaceHolder>
+            <!-- datagrid views are weak
         <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" CssClass="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222"  Onsorting="putStuff_Sorting" AllowSorting="true">
             <Columns>
                 <asp:BoundField DataField="formid" HeaderText="Form ID #" ItemStyle-CssClass="tablething" SortExpression="formid" />
@@ -31,7 +33,7 @@
                 <asp:HyperLinkField Text="Print a blank copy" DataNavigateUrlFormatString="printableBlank.aspx?formid={0}" DataNavigateUrlFields="formid" ItemStyle-CssClass="btn btn-primary butt tablething" />
                 <asp:HyperLinkField Text="Fill-Out Form" DataNavigateUrlFormatString="fillout.aspx?formid={0}" DataNavigateUrlFields="formid" ItemStyle-CssClass="btn btn-primary butt tablething" />
                 </Columns>
-        </asp:GridView>
+        </asp:GridView> -->
         <br />
         <div id="noForms" runat="server">
 
