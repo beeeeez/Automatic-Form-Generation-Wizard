@@ -17,7 +17,9 @@ public partial class Homepage : System.Web.UI.Page
         displayName.InnerHtml = Session["username"].ToString();
         List<hpTableEntry> masterList = temp.pullMasterList(Session["username"].ToString());
         Table homepageTable = generateTable(masterList);
+        homepageTable.CssClass = "table table-hover";
         homepageTablePH.Controls.Add(homepageTable);
+
         /*
         DataSet bung = temp.populateFormsTable();
         if((bool)Session["isthereData"] == true )
@@ -73,9 +75,6 @@ public partial class Homepage : System.Web.UI.Page
             creationDate.Text = entry.creationdate.ToString();
             tempRow.Controls.Add(creationDate);
 
-            TableCell numberofInstances = new TableCell();
-            numberofInstances.Text = entry.completedforms.ToString();
-            tempRow.Controls.Add(numberofInstances);
 
             TableCell trackingCell = new TableCell();
             HyperLink trackingLink = new HyperLink();
@@ -94,7 +93,7 @@ public partial class Homepage : System.Web.UI.Page
             TableCell printableBlankCell = new TableCell();
             HyperLink printableBlankLink = new HyperLink();
             printableBlankLink.NavigateUrl = "printableBlank.aspx?formid=" + entry.formid.ToString();
-            printableBlankLink.Text = "Edit Form";
+            printableBlankLink.Text = "Print Blank Form";
             printableBlankCell.Controls.Add(printableBlankLink);
             tempRow.Controls.Add(printableBlankCell);
 
@@ -104,6 +103,20 @@ public partial class Homepage : System.Web.UI.Page
             filloutLink.Text = "Fill Out Form";
             filloutCell.Controls.Add(filloutLink);
             tempRow.Controls.Add(filloutCell);
+
+
+            TableCell generateCell = new TableCell();
+            Label generateLabel = new Label();
+            generateLabel.Text = "Sharable URL :    ";
+            TextBox generateBox = new TextBox();
+            generateBox.CssClass = "form-control";
+            generateBox.Text = "fillout.aspx?formid = " + entry.formid.ToString()+"&username="+Session["username"].ToString();
+            generateBox.ReadOnly = true;
+            generateCell.Controls.Add(generateLabel);
+            generateCell.Controls.Add(generateBox);
+            tempRow.Controls.Add(generateCell);
+
+
 
             homepageTable.Controls.Add(tempRow);
 
@@ -120,30 +133,36 @@ public partial class Homepage : System.Web.UI.Page
         Button formidBtn = new Button();
         formidBtn.Text = "Form ID # :";
         formidBtn.Click += new EventHandler(this.sortTitle);
+        formidBtn.CssClass = "btn btn-outline-primary";
         formid.Controls.Add(formidBtn);
 
         TableHeaderCell formtitle = new TableHeaderCell();
         Button formtitleBtn = new Button();
         formtitleBtn.Text = "Form Title :";
         formtitleBtn.Click += new EventHandler(this.sortTitle);
+        formtitleBtn.CssClass = "btn btn-outline-primary";
         formtitle.Controls.Add(formtitleBtn);
 
         TableHeaderCell creationDate = new TableHeaderCell();
         Button creationDateBtn = new Button();
-        creationDateBtn.Text = "Form Title :";
+        creationDateBtn.Text = "Creation Date :";
         creationDateBtn.Click += new EventHandler(this.sortTitle);
+        creationDateBtn.CssClass = "btn btn-outline-primary";
         creationDate.Controls.Add(creationDateBtn);
 
+        /*
         TableHeaderCell numberofInstances = new TableHeaderCell();
         Button numberofInstancesBtn = new Button();
         numberofInstancesBtn.Text = "# of Completed Instances : ";
         numberofInstancesBtn.Click += new EventHandler(this.sortTitle);
+        numberofInstancesBtn.CssClass = "btn btn-outline-primary";
         numberofInstances.Controls.Add(numberofInstancesBtn);
+        */
 
         header.Controls.Add(formid);
         header.Controls.Add(formtitle);
         header.Controls.Add(creationDate);
-        header.Controls.Add(numberofInstances);
+       // header.Controls.Add(numberofInstances);
 
         return header;
     }

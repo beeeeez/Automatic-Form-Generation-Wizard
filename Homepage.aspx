@@ -4,7 +4,7 @@
     <style>
         .contain { width:80%; margin:auto; margin-top:5%;}
         #displayName {display:inline;}
-        .tablething {padding:2%; border-style:none; margin-bottom:2%;}
+        table{ border: none;}
         .butt {margin-left: 2%; margin-right: 2%;}
         .notify {color:green;}
         .btn {margin-bottom:0.5%}
@@ -15,10 +15,9 @@
     <div class="contain">
         <form runat="server">
 
-        <h2>Welcome back, <span runat="server" id="displayName"></span>! <asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /></h2><br /><a href="editUser.aspx" class="btn btn-warning">Edit User Account Details</a><br /><br />
-        <a href="FormCreate.aspx" class="btn btn-success btn-lg">Create a New Form</a><br /> <br />
+        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /><a href="editUser.aspx" class="btn btn-warning">Edit User Account Details</a><br />
+        <a href="FormCreate.aspx" class="btn btn-success btn-lg">Create a New Form</a><br />
             <asp:placeholder runat="server" id="Notifcation"></asp:placeholder>
-            <br />
             <br />
             <asp:PlaceHolder ID="homepageTablePH" runat="server"></asp:PlaceHolder>
             <!-- datagrid views are weak
