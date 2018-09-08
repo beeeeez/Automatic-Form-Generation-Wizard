@@ -261,10 +261,10 @@ public class Forms : SQL
         {
             int tempID = 0;
             Int32.TryParse(dataRead["formid"].ToString(), out tempID);
-            string tempTitle = dataRead["formtitle"].ToString();
+            string tempTitle = dataRead["form_title"].ToString();
             DateTime tempDT = (DateTime)dataRead["creation_date"];
-            int tempInstanceCount = getNumberOfInstances(username, tempID);
-
+            //int tempInstanceCount = getNumberOfInstances(username, tempID);
+            int tempInstanceCount = 0;
             hpTableEntry tempEntry = new hpTableEntry(tempID, tempTitle, tempDT, tempInstanceCount);
             masterList.Add(tempEntry);
 

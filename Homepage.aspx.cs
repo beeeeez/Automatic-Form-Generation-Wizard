@@ -16,6 +16,8 @@ public partial class Homepage : System.Web.UI.Page
         Forms temp = new Forms();
         displayName.InnerHtml = Session["username"].ToString();
         List<hpTableEntry> masterList = temp.pullMasterList(Session["username"].ToString());
+        Table homepageTable = generateTable(masterList);
+        homepageTablePH.Controls.Add(homepageTable);
         /*
         DataSet bung = temp.populateFormsTable();
         if((bool)Session["isthereData"] == true )
@@ -73,7 +75,37 @@ public partial class Homepage : System.Web.UI.Page
 
             TableCell numberofInstances = new TableCell();
             numberofInstances.Text = entry.completedforms.ToString();
-            numberofInstances.Controls.Add(numberofInstances);
+            tempRow.Controls.Add(numberofInstances);
+
+            TableCell trackingCell = new TableCell();
+            HyperLink trackingLink = new HyperLink();
+            trackingLink.NavigateUrl = "tracking.aspx?formid=" + entry.formid.ToString();
+            trackingLink.Text = "Tracking";
+            trackingCell.Controls.Add(trackingLink);
+            tempRow.Controls.Add(trackingCell);
+
+            TableCell editCell = new TableCell();
+            HyperLink editLink = new HyperLink();
+            editLink.NavigateUrl = "FormCreate.aspx?formid=" + entry.formid.ToString();
+            editLink.Text = "Edit Form";
+            editCell.Controls.Add(editLink);
+            tempRow.Controls.Add(editCell);
+
+            TableCell printableBlankCell = new TableCell();
+            HyperLink printableBlankLink = new HyperLink();
+            printableBlankLink.NavigateUrl = "printableBlank.aspx?formid=" + entry.formid.ToString();
+            printableBlankLink.Text = "Edit Form";
+            printableBlankCell.Controls.Add(printableBlankLink);
+            tempRow.Controls.Add(printableBlankCell);
+
+            TableCell filloutCell = new TableCell();
+            HyperLink filloutLink = new HyperLink();
+            filloutLink.NavigateUrl = "fillout.aspx?formid=" + entry.formid.ToString();
+            filloutLink.Text = "Fill Out Form";
+            filloutCell.Controls.Add(filloutLink);
+            tempRow.Controls.Add(filloutCell);
+
+            homepageTable.Controls.Add(tempRow);
 
         }
 
