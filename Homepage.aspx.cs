@@ -14,11 +14,21 @@ public partial class Homepage : System.Web.UI.Page
         Session["instanceid"] = null;
         Session["quesNum"] = 0;
         Forms temp = new Forms();
+        if (Session["username"] != null && Session["username"].ToString() != "") { 
         displayName.InnerHtml = Session["username"].ToString();
-        List<hpTableEntry> masterList = temp.pullMasterList(Session["username"].ToString());
-        Table homepageTable = generateTable(masterList);
-        homepageTable.CssClass = "table table-hover";
-        homepageTablePH.Controls.Add(homepageTable);
+            List<hpTableEntry> masterList = temp.pullMasterList(Session["username"].ToString());
+            masterList = sortListEntries(masterList);
+            //
+
+            Table homepageTable = generateTable(masterList);
+            homepageTable.CssClass = "table table-hover";
+            homepageTablePH.Controls.Add(homepageTable);
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
+        
 
         /*
         DataSet bung = temp.populateFormsTable();
@@ -110,7 +120,7 @@ public partial class Homepage : System.Web.UI.Page
             generateLabel.Text = "Sharable URL :    ";
             TextBox generateBox = new TextBox();
             generateBox.CssClass = "form-control";
-            generateBox.Text = "fillout.aspx?formid = " + entry.formid.ToString()+"&username="+Session["username"].ToString();
+            generateBox.Text = "fillout.aspx?formid=" + entry.formid.ToString()+"&username="+Session["username"].ToString();
             generateBox.ReadOnly = true;
             generateCell.Controls.Add(generateLabel);
             generateCell.Controls.Add(generateBox);
@@ -132,7 +142,7 @@ public partial class Homepage : System.Web.UI.Page
         TableHeaderCell formid = new TableHeaderCell();
         Button formidBtn = new Button();
         formidBtn.Text = "Form ID # :";
-        formidBtn.Click += new EventHandler(this.sortTitle);
+        formidBtn.Click += new EventHandler(this.sortID);
         formidBtn.CssClass = "btn btn-outline-primary";
         formid.Controls.Add(formidBtn);
 
@@ -146,7 +156,7 @@ public partial class Homepage : System.Web.UI.Page
         TableHeaderCell creationDate = new TableHeaderCell();
         Button creationDateBtn = new Button();
         creationDateBtn.Text = "Creation Date :";
-        creationDateBtn.Click += new EventHandler(this.sortTitle);
+        creationDateBtn.Click += new EventHandler(this.sortDate);
         creationDateBtn.CssClass = "btn btn-outline-primary";
         creationDate.Controls.Add(creationDateBtn);
 
@@ -169,8 +179,87 @@ public partial class Homepage : System.Web.UI.Page
 
     protected void sortTitle(object sender, EventArgs e)
     {
+        Session["sortBy"] = "formtitle";
+        if(Session["sortDir"].ToString() == "dsc")
+        {
+            Session["sortDir"] = "asc";
+        }
+        else
+        {
+            Session["sortDir"] = "dsc";
+        }
+    }
+
+    protected void sortID(object sender, EventArgs e)
+    {
+        Session["sortBy"] = "formid";
+        if (Session["sortDir"].ToString() == "dsc")
+        {
+            Session["sortDir"] = "asc";
+        }
+        else
+        {
+            Session["sortDir"] = "dsc";
+        }
+    }
+
+    protected void sortDate(object sender, EventArgs e)
+    {
+        Session["sortBy"] = "date";
+        if (Session["sortDir"].ToString() == "dsc")
+        {
+            Session["sortDir"] = "asc";
+        }
+        else
+        {
+            Session["sortDir"] = "dsc";
+        }
+    }
+
+    protected List<hpTableEntry> sortListEntries(List<hpTableEntry> masterList)
+    {
+        if(Session["sortBy"] == null)
+        {
+            Session["sortBy"] = "formid";
+            Session["sortDir"] = "asc";
+        }
+        else if(Session["sortBy"].ToString() == "formid")
+        {
+            if (Session["sortDir"].ToString() == "asc")
+            {
+                masterList = masterList.OrderBy(C => C.formid).ToList();
+            }
+            else
+            {
+                masterList = masterList.OrderByDescending(C => C.formid).ToList();
+            }
+        }
+        else if (Session["sortBy"].ToString() == "formtitle")
+        {
+            if (Session["sortDir"].ToString() == "asc")
+            {
+                masterList = masterList.OrderBy(C => C.formtitle).ToList();
+            }
+            else
+            {
+                masterList = masterList.OrderByDescending(C => C.formtitle).ToList();
+            }
+        }
+        else if (Session["sortBy"].ToString() == "date")
+        {
+            if (Session["sortDir"].ToString() == "asc")
+            {
+                masterList = masterList.OrderBy(C => C.creationdate).ToList();
+            }
+            else
+            {
+                masterList = masterList.OrderByDescending(C => C.creationdate).ToList();
+            }
+        }
 
 
+
+        return masterList;
     }
 
     protected void logout_Click(object sender, EventArgs e)

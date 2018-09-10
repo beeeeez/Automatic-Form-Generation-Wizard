@@ -7,7 +7,7 @@
         table{ border: none;}
         .butt {margin-left: 2%; margin-right: 2%;}
         .notify {color:green;}
-        .btn {margin-bottom:0.5%}
+        .btn {margin-bottom:0.5%; margin-right:0.5%;}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
@@ -15,7 +15,7 @@
     <div class="contain">
         <form runat="server">
 
-        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /><a href="editUser.aspx" class="btn btn-warning">Edit User Account Details</a><br />
+        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /><a href="editAccount.aspx" class="btn btn-warning">Edit User Account Details</a><br /><hr />
         <a href="FormCreate.aspx" class="btn btn-success btn-lg">Create a New Form</a><br />
             <asp:placeholder runat="server" id="Notifcation"></asp:placeholder>
             <br />
