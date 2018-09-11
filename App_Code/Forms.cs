@@ -151,11 +151,11 @@ public class Forms : SQL
         return formid;
         }
 
-    public string getFormTitle(int formid)
+    public string getFormTitle(int formid, string username)
     {
         string formtitle = "";
         SqlConnection connection = new SqlConnection(connString);
-        string tablename = HttpContext.Current.Session["username"].ToString() + "_master";
+        string tablename = username + "_master";
         string sqlStr = "select * from " + tablename + " where formid = @Formid";
         SqlCommand commandah = new SqlCommand(sqlStr, connection);
         commandah.Parameters.AddWithValue("@Formid", formid);
@@ -173,8 +173,9 @@ public class Forms : SQL
         DateTime anchorDate = DateTime.Now;
         SqlConnection connection = new SqlConnection(connString);
         string tablename =  HttpContext.Current.Session["username"].ToString() + "_master";
-        string sqlStr = "insert into " + tablename +" (form_title, creation_date) Values ('"+formtitle+"',  @Date)";
+        string sqlStr = "insert into " + tablename +" (form_title, creation_date) Values (@Formtitle,  @Date)";
         SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        commandah.Parameters.AddWithValue("@Formtitle", formtitle);
         commandah.Parameters.AddWithValue("@Date", anchorDate);
         connection.Open();
         commandah.ExecuteNonQuery();

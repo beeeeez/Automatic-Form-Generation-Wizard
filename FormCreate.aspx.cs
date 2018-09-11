@@ -107,7 +107,7 @@ public partial class FormCreate : System.Web.UI.Page
 
 
             }
-            string titlething = temp.getFormTitle(formid);
+            string titlething = temp.getFormTitle(formid, Session["username"].ToString());
             TextBox questionNum = new TextBox();
             questionNum.Text = i.ToString();
             questionNum.ID = "sqnum";

@@ -62,6 +62,7 @@ public class Users : SQL
 
     public void loginAttempt(string user, string knock)
     {
+        HttpContext.Current.Session["kosher"] = false;
         try
         {
             DataSet bung = new DataSet();
@@ -79,13 +80,16 @@ public class Users : SQL
                 HttpContext.Current.Session["username"] = dataRead["username"].ToString();
                 HttpContext.Current.Session["loggedIn"] = true;
                 HttpContext.Current.Session["email"] = dataRead["email"].ToString();
+                
             }
             connection.Close();
+            HttpContext.Current.Session["kosher"] = true;
         }
         catch (SqlException ex)
         {
             HttpContext.Current.Session["errorMsg"] = ex.ToString();
             HttpContext.Current.Session["loggedIn"] = false;
+            HttpContext.Current.Session["kosher"] = false;
         }
     }
 
@@ -114,6 +118,62 @@ public class Users : SQL
         {
             HttpContext.Current.Session["errorMsg"] = ex.ToString();
         }
+    }
+
+    public bool emailMatch(string user, string email)
+    {
+        bool kosher = false;
+        try
+        {
+            SqlConnection connection = new SqlConnection(connString);
+            string sqlStr = "Select username, email from USERS_KEY where email = @Email AND @Username = username";
+            SqlCommand commandah = new SqlCommand(sqlStr, connection);
+            commandah.Parameters.AddWithValue("@Email", email);
+            commandah.Parameters.AddWithValue("@Username", user);
+            SqlDataAdapter dataShmata = new SqlDataAdapter();
+            dataShmata.SelectCommand = commandah;
+            connection.Open();
+            SqlDataReader dataRead = commandah.ExecuteReader();
+            while (dataRead.Read())
+            {
+                if (dataRead["email"].ToString() == email)
+                {
+                    kosher = true;
+                }
+            }
+            connection.Close();
+        }
+        catch(SqlException ex)
+        {
+            
+        }
+            return kosher;
+
+    }
+
+    public bool emailChange(string user, string email)
+    {
+        bool kosher = false;
+        try
+        {
+            SqlConnection connection = new SqlConnection(connString);
+            string sqlStr = "update users_key set email = @Email where username = @Username";
+            SqlCommand commandah = new SqlCommand(sqlStr, connection);
+            commandah.Parameters.AddWithValue("@Email", email);
+            commandah.Parameters.AddWithValue("@Username", user);
+            connection.Open();
+            commandah.ExecuteNonQuery();
+            connection.Close();
+            kosher = true;
+
+        }
+        catch (Exception ex)
+        {
+            kosher = false;
+        }
+        return kosher;
+
+
     }
 
 

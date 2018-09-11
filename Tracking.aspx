@@ -20,7 +20,7 @@
                  <asp:BoundField DataField="instanceid" HeaderText="Instance ID #" ItemStyle-CssClass="tablething"/>
                 <asp:BoundField DataField="fillout_date" HeaderText="Creation Date" ItemStyle-CssClass="tablething" />
                   <asp:HyperLinkField Text="Edit Instance" DataNavigateUrlFormatString="fillOut.aspx?instanceid={0}" DataNavigateUrlFields="instanceid" ItemStyle-CssClass="btn btn-primary butt tablething" />
-                 <asp:HyperLinkField Text="Print Instance" DataNavigateUrlFormatString="printForm.aspx?instanceid={0}" DataNavigateUrlFields="instanceid" ItemStyle-CssClass="btn btn-primary butt tablething" />
+                 <asp:HyperLinkField Text="Print Instance" DataNavigateUrlFormatString="Printable.aspx?instanceid={0}" Target="_blank" DataNavigateUrlFields="instanceid" ItemStyle-CssClass="btn btn-primary butt tablething" />
                   
                  </Columns>
                 </asp:GridView>

@@ -102,8 +102,9 @@ public partial class Homepage : System.Web.UI.Page
 
             TableCell printableBlankCell = new TableCell();
             HyperLink printableBlankLink = new HyperLink();
-            printableBlankLink.NavigateUrl = "printableBlank.aspx?formid=" + entry.formid.ToString();
+            printableBlankLink.NavigateUrl = "Printable.aspx?formid=" + entry.formid.ToString();
             printableBlankLink.Text = "Print Blank Form";
+            printableBlankLink.Target = "_blank";
             printableBlankCell.Controls.Add(printableBlankLink);
             tempRow.Controls.Add(printableBlankCell);
 

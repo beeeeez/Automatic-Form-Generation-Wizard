@@ -40,7 +40,7 @@ public partial class FillOut : System.Web.UI.Page
         }
         else
         {
-            string formT = sql.getFormTitle(formid);
+            string formT = sql.getFormTitle(formid, user);
             header.Text = "<h3>Fill Out  - " + formT + " - <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3><br /><br />";
 
             List<question> qList = sql.getFormStructure(formid, user);
@@ -185,8 +185,17 @@ public partial class FillOut : System.Web.UI.Page
             {
                 Int32.TryParse(Session["formid"].ToString(), out formid);
             }
+            string user;
+            if (Session["username"] == null)
+            {
+                user = Request.QueryString["username"];
+            }
+            else
+            {
+                user = Session["username"].ToString();
 
-            string formT = sql.getFormTitle(formid);
+            }
+            string formT = sql.getFormTitle(formid, user);
             header.Text = "<h3>Editing Instance # " + instanceid.ToString() + " - " + formT + "  -- <a href=" + '"' + "tracking.aspx?formid=" + formid.ToString() + '"' + ">Return to tracking</a></h3><br />";
         }
     }
@@ -241,7 +250,7 @@ public partial class FillOut : System.Web.UI.Page
         temp.deleteInstance(user, formid, instanceid);
         temp.removeInstancefromMaster(user, formid, instanceid);
         Session["notify"] = "Instance #" + instanceid.ToString() + " has been deleted!";
-        Response.Redirect("Tracking.aspx?formid="+formid.ToString());
+        Response.Redirect("Tracking.aspx?formid=" + formid.ToString());
     }
 
     protected void fillOutFields(int instanceid)
