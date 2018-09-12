@@ -6,9 +6,23 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Security.Cryptography;
 
-/// <summary>
-/// Summary description for Forms
-/// </summary>
+/*This "Forms" class handles the SQL calls for the creation, updating, deletion, and searching of the form structure table
+ * 
+ * getFormStructure(int formid, string username) - returns a list of question objects from the structure table
+ * updateStructure(int formid, int totalQ, List<question> qList) - updates the structure table by dropping it and then runs functions to recreate a new version of it
+ * createStructure(int formid, int totalQ, List<question> qList) - called by updateStructure and creates the structure table in the database based on the list of question objects its handed
+ * fillStructure(int formid, int totalQ, List<question> qList) - also called by updateStructure and fills in the newly created table with the relevant answers
+ * createInstanceMaster(int formid) - creates the Instance Master table for a newly created form
+ * public int getNewFormID(DateTime anchorDate) - returns the newly created formid, used during form creation
+ * getFormTitle(int formid, string username) - returns the form title by using the formid as a reference
+ * createFormid(string formtitle) - inserts a new record in the structure table, thus creating a new incremental formid
+ * deleteFormStructure(string username, int formid) - drops the structure table
+ * removeFormEntry(string username, int formid) - called by removeFormEntry to remove the deleted structure's entry in the master table
+ * deleteAllInstances(string username, int formid) - creates an instance object and runs a number of instance functions to delete all instances and the instance master table of a deleted structure
+ * pullMasterList(string username) - returns a list of hpTableEntry objects. Used in the creation of the table on the homepage
+ * getNumberOfInstances(string username, int formid) - returns the number of instances listed in the instance master table -- not used as of 9/11 
+ * 
+ * */
 public class Forms : SQL
 {
     public Forms()
@@ -183,7 +197,7 @@ public class Forms : SQL
         return anchorDate;
     }
 
-    public DataSet populateFormsTable()
+   /* public DataSet populateFormsTable() // this is defunct
     {
         try
         {
@@ -210,7 +224,7 @@ public class Forms : SQL
             return bung;
           
         }
-    }
+    }*/
 
     public void deleteFormStructure(string username, int formid)
     {
@@ -271,6 +285,20 @@ public class Forms : SQL
 
         }
         connection.Close();
+        masterList = insertInstanceCount(masterList, username);
+
+        return masterList;
+    }
+
+    public List<hpTableEntry> insertInstanceCount(List<hpTableEntry> masterList, string username)
+    {
+        foreach(hpTableEntry entry in masterList)
+        {
+            int tempInstanceCount = getNumberOfInstances(username, entry.formid);
+            entry.completedforms = tempInstanceCount;
+        }
+
+
         return masterList;
     }
 
@@ -287,6 +315,7 @@ public class Forms : SQL
         {
             numIns++;
         }
+        
         connection.Close();
         return numIns;
     }

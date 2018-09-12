@@ -48,8 +48,8 @@
         <form action="#" method="post" runat="server" onsubmit="return saveValidate()">
        
         <div id="inner">
-            <asp:literal runat="server" id="header"></asp:literal> -- <a href="Homepage.aspx">Return to Homepage</a>
-            <br /> <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br />
+            <asp:literal runat="server" id="header"></asp:literal><br /><br /><a href="Homepage.aspx" class="btn btn-primary">Return to Homepage</a>
+            <br /><br /> <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br />
             <h4>What is your form's title? :</h4>
             <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" required /><br />
            

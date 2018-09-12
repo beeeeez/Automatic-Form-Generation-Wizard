@@ -41,7 +41,7 @@ public partial class FillOut : System.Web.UI.Page
         else
         {
             string formT = sql.getFormTitle(formid, user);
-            header.Text = "<h3>Fill Out  - " + formT + " - <a href=" + '"' + "homepage.aspx" + '"' + ">Return to homepage</a></h3><br /><br />";
+            header.Text = "<h3>Fill Out  - " + formT + "</h3><a href=" + '"' + "homepage.aspx" + '"' + " class=" +'"'+ "btn btn-primary"+'"'+">Return to homepage</a>";
 
             List<question> qList = sql.getFormStructure(formid, user);
             TextBox formidBox = new TextBox();

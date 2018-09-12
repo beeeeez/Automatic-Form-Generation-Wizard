@@ -14,7 +14,9 @@
     <div class="contain">
     <form runat="server">
            <asp:literal runat="server" id="header"></asp:literal><br />
-        <asp:Literal ID="notify" runat="server"></asp:Literal> 
+        <asp:Literal ID="notify" runat="server"></asp:Literal>
+
+        <asp:PlaceHolder ID="tpTablePH" runat="server"></asp:PlaceHolder>
     <asp:GridView ID="putStuff" runat="server" Visible="false" AutoGenerateColumns="false" CssClass="table table-hover" BorderStyle="None" BorderWidth="0px" BorderColor="#222222">
             <Columns>
                  <asp:BoundField DataField="instanceid" HeaderText="Instance ID #" ItemStyle-CssClass="tablething"/>

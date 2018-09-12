@@ -104,7 +104,14 @@ public class Instance : SQL
         return answerList;
 
     }
-    public DataSet populateTrackingTable(string username, int formid)
+
+    public List<tpTableEntry> pullMasterInstanceList(string username, int formid)
+    {
+        List<tpTableEntry> masterInstanceList = new List<tpTableEntry>();
+        string tablename = username + "_" + formid + "Instance_Master";
+        return masterInstanceList;
+    }
+   public DataSet populateTrackingTable(string username, int formid)
     {
         string tablename = username + "_" + formid+ "_Instance_Master";
         DataSet bung = new DataSet();

@@ -8,15 +8,24 @@
         .butt {margin-left: 2%; margin-right: 2%;}
         .notify {color:green;}
         .btn {margin-bottom:0.5%; margin-right:0.5%;}
+        .rightsideBtns{float:right; width:50%; text-align:right;}
+        .icon{font-size:28px; color:white;}
+        .cell{text-align:center;}
+        .header{color:#375a7f; font-size:16px;}
+        .header span{margin-top:5px; display:inline-block;}
+        .icon:hover{font-size:28px; color:#375a7f;}
+        
     </style>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <div class="contain">
         <form runat="server">
 
-        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><asp:Button ID="logout" runat="server" Text="Logout" CssClass="btn btn-danger" OnClick="logout_Click" /><a href="editAccount.aspx" class="btn btn-warning">Edit User Account Details</a><br /><hr />
-        <a href="FormCreate.aspx" class="btn btn-success btn-lg">Create a New Form</a><br />
+        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><div class="rightsideBtns"><asp:LinkButton ID="logout" runat="server" CssClass="btn btn-danger" OnClick="logout_Click" ><i class="fas fa-sign-out-alt"></i>Logout</asp:LinkButton><a href="editAccount.aspx" class="btn btn-warning"><i class="fas fa-cogs"></i> Edit Account</a></div><hr />
+        <a href="FormCreate.aspx" class="btn btn-success btn-lg"><i class="fas fa-plus"></i>   Create a New Form</a><br />
             <asp:placeholder runat="server" id="Notifcation"></asp:placeholder>
             <br />
             <asp:PlaceHolder ID="homepageTablePH" runat="server"></asp:PlaceHolder>
@@ -39,6 +48,66 @@
         </div>
         </form>
     </div>
+    <script>function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.querySelector(".table");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc";
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1) ; i++) {
+            //start by saying there should be no switching:
+            shouldSwitch = false;
+            /*Get the two elements you want to compare,
+            one from current row and one from the next:*/
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            /*check if the two rows should switch place,
+            based on the direction, asc or desc:*/
+            if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            } else if (dir == "desc") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+        if (shouldSwitch) {
+            /*If a switch has been marked, make the switch
+            and mark that a switch has been done:*/
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            //Each time a switch is done, increase this count by 1:
+            switchcount++;
+        } else {
+            /*If no switching has been done AND the direction is "asc",
+            set the direction to "desc" and run the while loop again.*/
+            if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+
+    
+
+    
+}
+        
+    </script>
 
 </asp:Content>
 

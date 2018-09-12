@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-/// <summary>
-/// Summary description for hpTableEntry
-/// </summary>
+/*this is an object that holds a single entry of what is listed on the homepage table
+ * its functions as a way of taking multiple sql queries and putting them into a parsable list
+ * 
+ * */
 public class hpTableEntry
 {
     public int formid;
