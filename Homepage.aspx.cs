@@ -74,9 +74,9 @@ public partial class Homepage : System.Web.UI.Page
         foreach (hpTableEntry entry in masterList)
         {
             string trackingIcon = "<i class=" + '"' + "fas fa-clipboard - list" + '"' + "></i>";
-            string editIcon = "<i class=" + '"' + "fas fa-pen" + '"' + "></i>";
+            string editIcon = "<i class=" + '"' + "fas fa-cogs" + '"' + "></i>";
             string printIcon = "<i class=" + '"' + "fas fa-print" + '"' + "></i>";
-            string filloutIcon = "<i class=" + '"' + "fas fa-plus-circle" + '"' + "></i>";
+            string filloutIcon = "<i class=" + '"' + "fas fa-pen" + '"' + "></i>";
 
             TableRow tempRow = new TableRow();
 
@@ -161,7 +161,7 @@ public partial class Homepage : System.Web.UI.Page
         formidBtn.Text = "Form ID # ";
         formidBtn.Attributes.Add("onclick", "sortTable(0); return false;");
         //formidBtn.Click += new EventHandler(this.sortID);
-        formidBtn.CssClass = "btn btn-outline-primary";
+        formidBtn.CssClass = "btn btn-outline-primary formid";
         formid.Controls.Add(formidBtn);
 
         TableHeaderCell formtitle = new TableHeaderCell();
@@ -169,7 +169,7 @@ public partial class Homepage : System.Web.UI.Page
         formtitleBtn.Text = "Form Title ";
         formtitleBtn.Attributes.Add("onclick", "sortTable(1); return false;");
         //formtitleBtn.Click += new EventHandler(this.sortTitle);
-        formtitleBtn.CssClass = "btn btn-outline-primary";
+        formtitleBtn.CssClass = "btn btn-outline-primary formtitle";
         formtitle.Controls.Add(formtitleBtn);
 
         TableHeaderCell creationDate = new TableHeaderCell();
@@ -177,7 +177,7 @@ public partial class Homepage : System.Web.UI.Page
         creationDateBtn.Text = "Creation Date ";
         creationDateBtn.Attributes.Add("onclick", "sortTable(2); return false;");
         //creationDateBtn.Click += new EventHandler(this.sortDate);
-        creationDateBtn.CssClass = "btn btn-outline-primary";
+        creationDateBtn.CssClass = "btn btn-outline-primary date";
         creationDate.Controls.Add(creationDateBtn);
 
         
@@ -186,7 +186,7 @@ public partial class Homepage : System.Web.UI.Page
         numberofInstancesBtn.Text = "# of Instances ";
         numberofInstancesBtn.Attributes.Add("onclick", "sortTable(3); return false;");
         //numberofInstancesBtn.Click += new EventHandler(this.sortNum);
-        numberofInstancesBtn.CssClass = "btn btn-outline-primary";
+        numberofInstancesBtn.CssClass = "btn btn-outline-primary numIns";
         numberofInstances.Controls.Add(numberofInstancesBtn);
 
         TableHeaderCell tracking = new TableHeaderCell();

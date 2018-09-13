@@ -39,8 +39,8 @@
         
         <div id="errorDiv" runat="server"></div>
           <div class="form-group">
-        <asp:Button ID="registerBtn" class="btn btn-primary" runat="server" Text="Register" OnClick="registerBtn_Click" /><br /> <br />
-          <a href="Default.aspx" class="btn btn-primary">Return To Login Page</a>
+        <asp:LinkButton ID="registerBtn" class="btn btn-primary" runat="server" OnClick="registerBtn_Click" ><i class="fas fa-registered"></i> Register</asp:LinkButton><br /> <br />
+          <a href="Default.aspx" class="btn btn-primary"><i class="fas fa-undo-alt"></i> Return To Login Page</a>
         </div><br />
             </form>
         </div>

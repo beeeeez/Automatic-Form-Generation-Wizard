@@ -25,7 +25,7 @@ public partial class Tracking : System.Web.UI.Page
         Int32.TryParse(Request.QueryString["formid"].ToString(), out formid);
         Forms ftemp = new Forms();
         string formtitle = ftemp.getFormTitle(formid, Session["username"].ToString());
-        header.Text = "<h3>Tracking " + formtitle + " </h3><br /><a href=" + '"' + "homepage.aspx" + '"' + " class="+'"'+ "btn btn-primary"+'"'+">Return to homepage</a><br />";
+        header.Text = "<h3>Tracking - " + formtitle + " </h3><a href=" + '"' + "homepage.aspx" + '"' + " class="+'"'+ "btn btn-primary right"+'"'+ "> <i class="+'"'+"fas fa-home"+'"'+"></i> Return to Homepage</a><br />";
         Instance temp = new Instance();
         DataSet bung = temp.populateTrackingTable(Session["username"].ToString(), formid);
         Session["formid"] = formid.ToString();

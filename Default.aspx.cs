@@ -16,6 +16,13 @@ public partial class _Default : System.Web.UI.Page
             notify.Text = Session["notify"].ToString();
             Session["notify"] = "";
         }
+        else if (Session["notification"] != null)
+        {
+            notify.Text = Session["notification"].ToString();
+            Session["notification"] = "";
+        }
+
+      //  loginBtn.Text= "<i class="+'"'+"fas fa-sign-in"+'"'+"></i>";
     }
 
     protected void loginBtn_Click(object sender, EventArgs e)

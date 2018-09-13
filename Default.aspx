@@ -16,6 +16,8 @@
             margin:auto;
             margin-top:3%;
         }
+
+
     </style>
     <div class="contain"><br />
   <form runat="server">        <h1>Automatic Form Generation Wizard</h1><br />
@@ -35,9 +37,10 @@
 
 
     <div class="form-group">
-        <asp:Button ID="loginBtn" CssClass="btn btn-primary" runat="server" Text="Login" OnClick="loginBtn_Click" /><br /> <br />
-          <a href="Registration.aspx" class="btn btn-primary">Register</a><br /><br />
-         <a href="lostPass.aspx" class="btn btn-warning">Lost your Password?</a>
+        <asp:LinkButton ID="loginBtn" CssClass="btn btn-primary" runat="server" OnClick="loginBtn_Click" ><i class="fas fa-sign-in-alt"></i> Login</asp:LinkButton>
+<br /> <br />
+          <a href="Registration.aspx" class="btn btn-primary"><i class="fas fa-registered"></i> Register</a><br /><br />
+         <a href="lostPass.aspx" class="btn btn-warning"><i class="fas fa-question"></i> Forgot Password</a>
         </div>
 
 

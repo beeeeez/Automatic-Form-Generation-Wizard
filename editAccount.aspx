@@ -21,7 +21,7 @@
         <asp:TextBox ID="newPassBox" runat="server" CssClass="form-control"></asp:TextBox>
         <label>Confirm New Password :</label>
         <asp:TextBox ID="confirmPassBox" runat="server" CssClass="form-control"></asp:TextBox><br />
-        <asp:Button ID="passChangeBtn" runat="server" Text="Save Password Changes" class="btn btn-success" OnClick="passChangeBtn_Click"/>
+        <asp:LinkButton ID="passChangeBtn" runat="server" class="btn btn-success" OnClick="passChangeBtn_Click"><i class="fas fa-check"></i> Save New Password</asp:LinkButton>
         <br /><hr />
                 <h3>Change Email:</h3>
             <asp:Literal ID="mailErr" runat="server"></asp:Literal>
@@ -32,7 +32,7 @@
         <asp:TextBox ID="newEmailBox" runat="server" CssClass="form-control"></asp:TextBox>
         <label>Confirm New Email :</label><br />
         <asp:TextBox ID="confirmEmailBox" runat="server" CssClass="form-control"></asp:TextBox><br />
-        <asp:Button ID="emailChangeBtn" runat="server" Text="Save Email Changes" class="btn btn-success" OnClick="emailChangeBtn_Click"/>
+        <asp:LinkButton ID="emailChangeBtn" runat="server" class="btn btn-success" OnClick="emailChangeBtn_Click"><i class="fas fa-check"></i> Save New Email</asp:LinkButton>
             </form>
     </div>
 </asp:Content>

@@ -12,14 +12,10 @@
         .btn {
             display:inline;
             margin-right: 2%;
-            margin-top: 2%;
-        }
-        .btn-primary{
-            margin-top:20px;
         }
 
         .inlineBtn {
-            margin-left:5%;
+            margin-left:3%;
         }
 
         #inner {
@@ -33,6 +29,21 @@
         .form-control {
             width: 45%;
             display:inline;
+        }
+        .right{
+            float:right;
+        }
+        h3 {
+            display:inline-block;
+            float:left;
+        }
+        .textarea {
+            display:inline-block;
+        }
+        .option{
+            margin-top:2%;
+            display:block;
+            width:20%;
         }
 
     </style>
@@ -48,8 +59,8 @@
         <form action="#" method="post" runat="server" onsubmit="return saveValidate()">
        
         <div id="inner">
-            <asp:literal runat="server" id="header"></asp:literal><br /><br /><a href="Homepage.aspx" class="btn btn-primary">Return to Homepage</a>
-            <br /><br /> <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br />
+            <asp:literal runat="server" id="header"></asp:literal><a href="Homepage.aspx" class="btn btn-primary right"><i class="fas fa-home"></i> Return to Homepage</a>
+             <asp:PlaceHolder ID="deleteBtnLit" runat="server"></asp:PlaceHolder><br /><br /><br />
             <h4>What is your form's title? :</h4>
             <input type="text" id="formtitle" name="formtitle" placeholder="Enter a form title." class="form-control" required /><br />
            
@@ -57,10 +68,8 @@
             <label id="errLbl"></label>
             <div id="create"></div><hr />
             <input type="hidden" id="totalQ" name="totalQ"/>
-            <div class="btn btn-primary" id="addBtn">Add a New Question</div>
-            <div class="btn btn-primary" id="addText">Add Text</div>
-
-            <br />
+            <div class="btn btn-primary" id="addBtn"><i class="fas fa-plus"></i> Add a New Question</div>
+            <div class="btn btn-primary" id="addText"><i class="fas fa-plus"></i> Add Text</div>
             <input type="submit" id="saveSubmit" class="btn btn-success" />
             <asp:placeholder runat="server" id="editPH"></asp:placeholder>
             <!--
@@ -165,7 +174,7 @@
                 
                 function addText(){
                     qnum = parseInt($("#totalQ").val()) + 1;
-                    let tDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Static Text -  #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="hidden" id="ddl' + qnum + '"  name="ddl' + qnum + '"value="static" /><textarea id="tb' + qnum + '" cols="40" rows="5" name="tb' + qnum + '" placeholder="Untitled Static Text" class="form-control"></textarea><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn">Delete this Static Text</span><hr /></div> ';
+                    let tDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Static Text -  #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="hidden" id="ddl' + qnum + '"  name="ddl' + qnum + '"value="static" /><textarea id="tb' + qnum + '" cols="40" rows="5" name="tb' + qnum + '" placeholder="Untitled Static Text" class="form-control textarea"></textarea><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn"><i class="fas fa-times"></i> Delete this Static Text</span><hr /></div> ';
                     $("#totalQ").val(qnum);
                     $("#create").append(tDiv);
 
@@ -184,7 +193,7 @@
 
 
                     qnum = parseInt($("#totalQ").val()) + 1;
-                    let qDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Question #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="text" id="tb' + qnum + '"  name="tb' + qnum + '" placeholder="Untitled Question" class="form-control" style="width:50%;" required><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn">Delete this Question</span><br /><br /><label>What is the input type? :</label><br /><select id="ddl' + qnum + '"  name="ddl' + qnum + '" onchange="ddlChange(' + qnum + ')"><option value="short">Short Text</option><option value="long">Long Text</option><option value="multiple">Multiple Choice</option><option value="checkbox">Checkboxes</option><option value="datetime">Date & Time</option></select></div>';
+                    let qDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Question #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="text" id="tb' + qnum + '"  name="tb' + qnum + '" placeholder="Untitled Question" class="form-control" style="width:50%;" required><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn"><i class="fas fa-times"></i> Delete this Question</span><br /><br /><label>What is the input type? :</label><br /><select id="ddl' + qnum + '"  name="ddl' + qnum + '" onchange="ddlChange(' + qnum + ')"><option value="short">Short Text</option><option value="long">Long Text</option><option value="multiple">Multiple Choice</option><option value="checkbox">Checkboxes</option><option value="datetime">Date & Time</option></select></div>';
                     $("#totalQ").val(qnum);
                     $("#create").append(qDiv);
 
@@ -228,6 +237,7 @@
                             $('div#options' + qnum).find($('span#delOption' + opCount)).attr('id', 'delOption' + opCount);
                             $('div#options' + qnum).find($('input#q' + qnum + 'Option' + opCount)).attr('name', 'q' + correctNum + 'Option' + opCount);
                             $('div#options' + qnum).find($('input#q' + qnum + 'Option' + opCount)).attr('id', 'q' + correctNum + 'Option' + opCount);
+                            $('div#options' + qnum).find($('br#q' + qnum + 'space' + opCount)).attr('id', 'q' + correctNum + 'space' + opCount);
                             opCount++;
                         }
 
@@ -280,14 +290,14 @@
                 */
 
                 function drawOption(hold) {
-                    let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option1" name="q' + hold + 'Option1" required/><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-warning inlineBtn">Delete this option </span><br /> <input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option2" name="q' + hold + 'Option2" required><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-warning inlineBtn" >Delete this option </span><br /><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary" >Add option</span><br /></div> ';
+                    let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option1" name="q' + hold + 'Option1" required/><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-warning inlineBtn"><i class="fas fa-times"></i> Delete this Option </span><br id="q' + hold + 'space1"/> <input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option2" name="q' + hold + 'Option2" required><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-warning inlineBtn" ><i class="fas fa-times"></i> Delete this Option </span><br  id="q' + hold + 'space2"/><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary option" ><i class="fas fa-plus"></i> Add Option</span><br /></div> ';
                     $('#q' + hold).append(draw);
                 }
 
                 function addOption(hold) {
                     let opTotal = parseInt($('#q' + hold + 'OptionsTotal').val());
                     opTotal++;
-                    let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option' + opTotal + '"  name="q' + hold + 'Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-warning inlineBtn" required >Delete this option </span><br />';
+                    let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option' + opTotal + '"  name="q' + hold + 'Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-warning inlineBtn" required ><i class="fas fa-times"></i> Delete this Option </span><br id="q' + hold + 'space' + opTotal + '" />';
                     $('#q' + hold + 'OptionsTotal').val(opTotal);
                     $('#addOption' + hold).before(draw);
                     
@@ -296,6 +306,7 @@
 
                 function destroyOption(hold) {
                     $('#options' + hold).remove();
+             
                 }
 
 
@@ -311,7 +322,8 @@
                     console.log("destroyed question#" + qnum + "  - option#" + onum);
                     $('#options' + qnum).find('#q' +qnum+ 'Option' + onum).remove();
                     $('#options' + qnum).find('#delOption' + onum).remove();
-                    
+                    $('#options' + qnum).find('#q' + qnum+'space'+onum).remove();
+
                     if ($('#options' + qnum).find(":text").length == 0) {
                         destroyOption(qnum);
                         $('#ddl' + qnum).val("short")
@@ -330,6 +342,9 @@
                             $('div#options' + qnum).find($('input#q' + qnum + 'Option' + onum)).attr('id', 'q'+qnum+'Option' + correctNum);
                             $('div#options' + qnum).find($('span#delOption' + onum)).attr('onclick', 'delOption(' + qnum + ', ' + correctNum + ')');
                             $('div#options' + qnum).find($('span#delOption' + onum)).attr('id', 'delOption' + correctNum);
+
+                            $('div#options' + qnum).find($('br#q' + qnum + 'space' + onum)).attr('id', 'q' + qnum + 'space' + correctNum);
+
                             onum++;
                             correctNum++;
                             

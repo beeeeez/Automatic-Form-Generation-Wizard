@@ -14,17 +14,17 @@
         .header{color:#375a7f; font-size:16px;}
         .header span{margin-top:5px; display:inline-block;}
         .icon:hover{font-size:28px; color:#375a7f;}
+        h2 {display:inline-block; float:left;}
         
     </style>
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <div class="contain">
         <form runat="server">
 
-        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><div class="rightsideBtns"><asp:LinkButton ID="logout" runat="server" CssClass="btn btn-danger" OnClick="logout_Click" ><i class="fas fa-sign-out-alt"></i>Logout</asp:LinkButton><a href="editAccount.aspx" class="btn btn-warning"><i class="fas fa-cogs"></i> Edit Account</a></div><hr />
+        <h2>Welcome back, <span runat="server" id="displayName"></span>!</h2><div class="rightsideBtns"><asp:LinkButton ID="logout" runat="server" CssClass="btn btn-danger" OnClick="logout_Click" ><i class="fas fa-sign-out-alt"></i>Logout</asp:LinkButton><a href="editAccount.aspx" class="btn btn-warning"><i class="fas fa-cogs"></i> Edit Account</a></div><br /><br /><hr />
         <a href="FormCreate.aspx" class="btn btn-success btn-lg"><i class="fas fa-plus"></i>   Create a New Form</a><br />
             <asp:placeholder runat="server" id="Notifcation"></asp:placeholder>
             <br />
@@ -48,12 +48,57 @@
         </div>
         </form>
     </div>
-    <script>function sortTable(n) {
+    <script>
+        function arrowDraw(n, dir) {
+            $(".fa-sort-up").remove();
+            $(".fa-sort-down").remove();
+
+            if (n == 0) {
+                if (dir == "asc") {
+                    $(".formid").append('<i class="fas fa-sort-up"></i>');
+                }
+                else {
+                    $(".formid").append('<i class="fas fa-sort-down"></i>');
+                }
+            }
+            else if (n == 1) {
+                if (dir == "asc") {
+                    $(".formtitle").append('<i class="fas fa-sort-up"></i>');
+                }
+                else {
+                    $(".formtitle").append('<i class="fas fa-sort-down"></i>');
+                }
+            }
+            else if (n == 2) {
+                if (dir == "asc") {
+                    $(".date").append('<i class="fas fa-sort-up"></i>');
+                }
+                else {
+                    $(".date").append('<i class="fas fa-sort-down"></i>');
+                }
+            }
+            else if (n == 3) {
+                if (dir == "asc") {
+                    $(".numIns").append('<i class="fas fa-sort-up"></i>');
+                }
+                else {
+                    $(".numIns").append('<i class="fas fa-sort-down"></i>');
+                }
+            }
+
+
+        }
+
+
+
+
+        function sortTable(n) {//thank you jay for being awesome and finding this w3 example 
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.querySelector(".table");
     switching = true;
     //Set the sorting direction to ascending:
     dir = "asc";
+   
     /*Make a loop that will continue until
     no switching has been done:*/
     while (switching) {
@@ -100,9 +145,10 @@
                 switching = true;
             }
         }
+      
     }
 
-    
+    arrowDraw(n, dir);
 
     
 }

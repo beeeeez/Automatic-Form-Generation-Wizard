@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -58,10 +58,10 @@ public partial class FormCreate : System.Web.UI.Page
             TextBox formidBox = new TextBox();
             formidBox.ID = "sformid";
             formidBox.Text = Request.QueryString["formid"];
-            Button deleteBtn = new Button();
-            deleteBtn.CssClass = "btn btn-danger";
+            LinkButton deleteBtn = new LinkButton();
+            deleteBtn.CssClass = "btn btn-danger right";
             deleteBtn.OnClientClick = "jsDelete()";
-            deleteBtn.Text = "Delete this Form";
+            deleteBtn.Text = "<i class="+'"'+"fas fa-times"+'"'+"></i> Delete this Form";
             deleteBtnLit.Controls.Add(deleteBtn);
 
 
@@ -116,7 +116,7 @@ public partial class FormCreate : System.Web.UI.Page
             titleThingBox.Text = titlething;
             titleThingBox.ID = "titleThing";
             editPH.Controls.Add(titleThingBox);
-            header.Text = "<h3>Editing Form " + titlething;
+            header.Text = "<h3>Editing Form " + titlething +"</h3>";
 
         }
 
@@ -131,7 +131,7 @@ public partial class FormCreate : System.Web.UI.Page
             formidBox.Visible = false;
             editPH.Controls.Add(formidBox);
 
-            header.Text = "<h3>New Form Creation";
+            header.Text = "<h3>New Form Creation</h3>";
 
         }
 

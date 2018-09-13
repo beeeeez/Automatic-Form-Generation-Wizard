@@ -107,7 +107,7 @@ public class Users : SQL
             commandah.ExecuteNonQuery();
             connection.Close();
 
-            string creationStr = "create table " + user + "_master" + " (formid int IDENTITY(1,1) PRIMARY KEY, form_title varchar(25) not null,creation_date datetime not null)"; // you cant parameteralize the table names :l
+            string creationStr = "create table " + user + "_master" + " (formid int IDENTITY(1,1) PRIMARY KEY, form_title varchar(250) not null,creation_date datetime not null)"; // you cant parameteralize the table names :l
             commandah = new SqlCommand(creationStr, connection);
             connection.Open();
             commandah.ExecuteNonQuery();

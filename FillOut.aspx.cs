@@ -41,7 +41,7 @@ public partial class FillOut : System.Web.UI.Page
         else
         {
             string formT = sql.getFormTitle(formid, user);
-            header.Text = "<h3>Fill Out  - " + formT + "</h3><a href=" + '"' + "homepage.aspx" + '"' + " class=" +'"'+ "btn btn-primary"+'"'+">Return to homepage</a>";
+            header.Text = "<h3>Fill Out  - " + formT + "</h3><a href=" + '"' + "homepage.aspx" + '"' + " class=" +'"'+ "btn btn-primary right"+'"'+ "><i class="+'"'+"fas fa-home"+'"'+"></i> Return to Homepage</a>";
 
             List<question> qList = sql.getFormStructure(formid, user);
             TextBox formidBox = new TextBox();
@@ -61,6 +61,8 @@ public partial class FillOut : System.Web.UI.Page
 
             int i = 0;
             int onum;
+
+            
             foreach (question q in qList)
             {
                 i++;
@@ -75,7 +77,7 @@ public partial class FillOut : System.Web.UI.Page
                 CheckBox checkbox = new CheckBox();
 
 
-                lit.Text = "<hr /><h4>" + q.title + "</h4>";
+                lit.Text = "<br /><h4>" + q.title + "</h4>";
                 create.Controls.Add(lit);
 
                 TextBox typeBox = new TextBox();
@@ -109,7 +111,7 @@ public partial class FillOut : System.Web.UI.Page
                 {
                     onum = q.opnum;
                     multiple.ID = "ddl" + i;
-                    multiple.CssClass = "form-group";
+                    multiple.CssClass = "custom-select";
                     foreach (string option in q.options)
                     {
                         multiple.Items.Add(option);
@@ -121,7 +123,7 @@ public partial class FillOut : System.Web.UI.Page
                 {
                     onum = q.opnum;
                     checkboxlist.ID = "cb" + i;
-                    checkboxlist.CssClass = "form-group";
+                    checkboxlist.CssClass = "custom-checkbox";
                     foreach (string option in q.options)
                     {
                         checkboxlist.Items.Add(option);
@@ -167,11 +169,11 @@ public partial class FillOut : System.Web.UI.Page
 
 
             fillOutFields(instanceid);
-
-            Button deleteBtn = new Button();
-            deleteBtn.CssClass = "btn btn-danger";
+            string deleteIcon = "<i class=" + '"' + "fas fa-trash - alt" + '"' + "></i>";
+            LinkButton deleteBtn = new LinkButton();
+            deleteBtn.CssClass = "btn btn-danger right";
             deleteBtn.OnClientClick = "jsDelete()";
-            deleteBtn.Text = "Delete this Instance";
+            deleteBtn.Text = deleteIcon + " Delete Instance";
             deleteBtnLit.Controls.Add(deleteBtn);
 
             Forms sql = new Forms();
@@ -196,7 +198,7 @@ public partial class FillOut : System.Web.UI.Page
 
             }
             string formT = sql.getFormTitle(formid, user);
-            header.Text = "<h3>Editing Instance # " + instanceid.ToString() + " - " + formT + "  -- <a href=" + '"' + "tracking.aspx?formid=" + formid.ToString() + '"' + ">Return to tracking</a></h3><br />";
+            header.Text = "<h3>Editing Instance # " + instanceid.ToString() + " - " + formT + "</h3><a href=" + '"' + "tracking.aspx?formid=" + formid.ToString() + '"' + " class="+'"'+"btn btn-primary right"+'"'+ "> <i class="+'"'+"fas fa-undo - alt"+'"'+"></i> Return to Tracking</a>";
         }
     }
 
