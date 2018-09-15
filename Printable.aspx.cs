@@ -70,7 +70,7 @@ public partial class Printable : System.Web.UI.Page
                     {
                         j++;
                         Literal opt = new Literal();
-                        opt.Text = option + "<br/ >";
+                        opt.Text = "⵲  " + option + "<br/ >";
 
                         if (j == q.options.Count())
                         {
@@ -90,7 +90,7 @@ public partial class Printable : System.Web.UI.Page
                     {
                         k++;
                         Literal op = new Literal();
-                        op.Text = "⵲" + option + " <br /> ";
+                        op.Text = "⵲  " + option + " <br /> ";
                         if (k == q.options.Count())
                         {
                             op.Text += "<br/ >";
@@ -147,15 +147,15 @@ public partial class Printable : System.Web.UI.Page
 
                         if (option == answer)
                         {
-                            string duh = "<img src=" + '"' + "./checked.png" + '"' + '"' + " />";
-                            multiii.Text = duh + answer + "<br />";
+                            string duh = "<img src=" + '"' + "./checked.png" + '"' + '"' + " /> ";
+                            multiii.Text = duh + " " + answer + "<br />";
                             create.Controls.Remove(a);
                             create.Controls.Add(multiii);
                         }
                         else
                         {
                             string no = "<img src=" + '"' + "./unchecked.png" + '"' + '"' + "/>";
-                            opt.Text = no + option + "<br /> ";
+                            opt.Text = no + " " +option + "<br /> ";
                             create.Controls.Remove(a);
                             create.Controls.Add(opt);
                         }
