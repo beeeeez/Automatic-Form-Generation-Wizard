@@ -9,7 +9,7 @@ using System.Net.Mail;
 
 public partial class _Default : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e) // checks for notifications
     {
         if(Session["notify"] != null)
         {
@@ -25,7 +25,7 @@ public partial class _Default : System.Web.UI.Page
       //  loginBtn.Text= "<i class="+'"'+"fas fa-sign-in"+'"'+"></i>";
     }
 
-    protected void loginBtn_Click(object sender, EventArgs e)
+    protected void loginBtn_Click(object sender, EventArgs e) // login button click
     {
         Users temp = new Users();
         temp.loginAttempt(username.Text, password.Text);

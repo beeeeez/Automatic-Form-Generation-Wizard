@@ -16,7 +16,7 @@ public partial class Homepage : System.Web.UI.Page
         Session["instanceid"] = null;
         Session["quesNum"] = 0;
         Forms temp = new Forms();
-        if (Session["username"] != null && Session["username"].ToString() != "") { 
+        if (Session["username"] != null && Session["username"].ToString() != "") { // a secondary catch to see if the user is logged in
         displayName.InnerHtml = Session["username"].ToString();
             List<hpTableEntry> masterList = temp.pullMasterList(Session["username"].ToString());
             masterList = sortListEntries(masterList);
@@ -52,7 +52,7 @@ public partial class Homepage : System.Web.UI.Page
             noForms.InnerHtml = "<h6>Create a new form by clicking the create form button!</h6>";
         }
         */
-        if (Session["notification"] !=null && Session["notification"].ToString() != "")
+        if (Session["notification"] !=null && Session["notification"].ToString() != "") //if there is a notification, draw it
         {
             Literal notify = new Literal();
             notify.Text = "<br /><h4 class="+'"'+"notify"+'"'+">" + Session["notification"].ToString() + "</h4>";
@@ -63,15 +63,15 @@ public partial class Homepage : System.Web.UI.Page
 
     }
 
-    protected Table generateTable(List<hpTableEntry> masterList)
+    protected Table generateTable(List<hpTableEntry> masterList) // generates the table and returns it to be drawn
     {
         Table homepageTable = new Table();
-        TableHeaderRow header = generateHeaderRow();
+        TableHeaderRow header = generateHeaderRow(); // generates the header row
         homepageTable.Controls.Add(header);
 
         //var newList = masterList.OrderBy(x => x.formtitle).ToList();
 
-        foreach (hpTableEntry entry in masterList)
+        foreach (hpTableEntry entry in masterList) // takes every entry in the list and draws a row with the corresponding information
         {
             string trackingIcon = "<i class=" + '"' + "fas fa-clipboard - list" + '"' + "></i>";
             string editIcon = "<i class=" + '"' + "fas fa-cogs" + '"' + "></i>";
@@ -152,7 +152,7 @@ public partial class Homepage : System.Web.UI.Page
         return homepageTable;
     }
 
-    protected TableHeaderRow generateHeaderRow()
+    protected TableHeaderRow generateHeaderRow() // generates the header row
     {
         TableHeaderRow header = new TableHeaderRow();
 
@@ -211,7 +211,7 @@ public partial class Homepage : System.Web.UI.Page
         generate.Text = "<span>Generated URL</span>";
         generate.CssClass = "header";
 
-        if(Session["sortBy"] != null)
+        if(Session["sortBy"] != null) // defunct - all sorting is done client side now
         {
             if(Session["sortDir"].ToString() == "asc")
             {
@@ -270,7 +270,7 @@ public partial class Homepage : System.Web.UI.Page
         return header;
     }
 
-    protected void sortTitle(object sender, EventArgs e)
+    protected void sortTitle(object sender, EventArgs e)// defunct - all sorting is done client side now
     {
         Session["sortBy"] = "formtitle";
         if(Session["sortDir"].ToString() == "dsc")
@@ -283,7 +283,7 @@ public partial class Homepage : System.Web.UI.Page
         }
     }
 
-    protected void sortID(object sender, EventArgs e)
+    protected void sortID(object sender, EventArgs e)// defunct - all sorting is done client side now
     {
         Session["sortBy"] = "formid";
         if (Session["sortDir"].ToString() == "dsc")
@@ -296,7 +296,7 @@ public partial class Homepage : System.Web.UI.Page
         }
     }
 
-    protected void sortNum(object sender, EventArgs e)
+    protected void sortNum(object sender, EventArgs e)// defunct - all sorting is done client side now
     {
         Session["sortBy"] = "numIns";
         if (Session["sortDir"].ToString() == "dsc")
@@ -309,7 +309,7 @@ public partial class Homepage : System.Web.UI.Page
         }
     }
 
-    protected void sortDate(object sender, EventArgs e)
+    protected void sortDate(object sender, EventArgs e)// defunct - all sorting is done client side now
     {
         Session["sortBy"] = "date";
         if (Session["sortDir"].ToString() == "dsc")
@@ -322,7 +322,7 @@ public partial class Homepage : System.Web.UI.Page
         }
     }
 
-    protected List<hpTableEntry> sortListEntries(List<hpTableEntry> masterList)
+    protected List<hpTableEntry> sortListEntries(List<hpTableEntry> masterList)// defunct - all sorting is done client side now
     {
         if(Session["sortBy"] == null)
         {
@@ -379,7 +379,7 @@ public partial class Homepage : System.Web.UI.Page
         return masterList;
     }
 
-    protected void logout_Click(object sender, EventArgs e)
+    protected void logout_Click(object sender, EventArgs e) // clicking the logout button
     {
         Session.Abandon();
         Response.Redirect("Default.aspx");
@@ -390,7 +390,7 @@ public partial class Homepage : System.Web.UI.Page
         
     }
 
-    protected void putStuff_Sorting(object sender, GridViewSortEventArgs e)
+    protected void putStuff_Sorting(object sender, GridViewSortEventArgs e) // defunct - all sorting is done client side now
     {
         putStuff.DataBind();
     }

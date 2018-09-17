@@ -6,6 +6,18 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Security.Cryptography;
 
+/*This "Users" class handles the SQL calls for the creation, updating, deletion, and searching of the users_key and users_master tables
+ * it requires no arguments for construction
+ * 
+ * changePassword(string username, string password) - changes a users password to a new password
+ * findUsername(string email) - uses email address to find a username
+ * loginAttempt(string user, string knock) - searches for a username and password and sets the corresponding Session variables
+ * registerUser(string user, string knock, string email) - registers a user into the users_key table
+ * emailMatch(string user, string email) - returns a boolean whose value is based on whether there is a match with both username and email address
+ *  emailChange(string user, string email) - changes a user's email address value in the users_key table
+ * 
+ * */
+
 public class Users : SQL
 {
     public Users()

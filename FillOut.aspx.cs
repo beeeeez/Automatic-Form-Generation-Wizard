@@ -15,7 +15,7 @@ public partial class FillOut : System.Web.UI.Page
 
         Forms sql = new Forms();
         string user;
-        if (Session["username"] == null)
+        if (Session["username"] == null)// parses username through either session or url get
         {
             user = Request.QueryString["username"];
         }
@@ -25,7 +25,7 @@ public partial class FillOut : System.Web.UI.Page
 
         }
         int formid = 0;
-        if (Request.QueryString["formid"] != null)
+        if (Request.QueryString["formid"] != null)// parses formid through either session or url get
         {
             Int32.TryParse(Request.QueryString["formid"], out formid);
 
@@ -34,13 +34,13 @@ public partial class FillOut : System.Web.UI.Page
         {
             Int32.TryParse(Session["formid"].ToString(), out formid);
         }
-        if (Request.Form["deleteInstance"] != null)
+        if (Request.Form["deleteInstance"] != null)// if they clicked the delete button, this deletes a previously filled out instance
         {
             deleteInstance(formid);
         }
         else
         {
-            string formT = sql.getFormTitle(formid, user);
+            string formT = sql.getFormTitle(formid, user); // gets the form title
             header.Text = "<h3>Fill Out  - " + formT + "</h3><a href=" + '"' + "homepage.aspx" + '"' + " class=" +'"'+ "btn btn-primary right"+'"'+ "><i class="+'"'+"fas fa-home"+'"'+"></i> Return to Homepage</a>";
 
             List<question> qList = sql.getFormStructure(formid, user);
@@ -63,7 +63,7 @@ public partial class FillOut : System.Web.UI.Page
             int onum;
 
             
-            foreach (question q in qList)
+            foreach (question q in qList) // this loop generates all of the elements indicated by the structure table by parsing a list of question objects
             {
                 i++;
                 Literal lit = new Literal();
@@ -161,18 +161,18 @@ public partial class FillOut : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack && Request.QueryString["instanceid"] != null)
+        if (!IsPostBack && Request.QueryString["instanceid"] != null) // figures out whether the user is filling out a new form or editting a previous instance by looking for the instance id 
         {
 
             int instanceid;
             Int32.TryParse(Request.QueryString["instanceid"], out instanceid);
 
 
-            fillOutFields(instanceid);
+            fillOutFields(instanceid);// fills out the input values with the answers indicated by the instance table
             string deleteIcon = "<i class=" + '"' + "fas fa-trash - alt" + '"' + "></i>";
             LinkButton deleteBtn = new LinkButton();
             deleteBtn.CssClass = "btn btn-danger right";
-            deleteBtn.OnClientClick = "jsDelete()";
+            deleteBtn.OnClientClick = "jsDelete()"; // using this function client side will allow the fillout page to find out if the user clicked the delete button
             deleteBtn.Text = deleteIcon + " Delete Instance";
             deleteBtnLit.Controls.Add(deleteBtn);
 
@@ -202,7 +202,7 @@ public partial class FillOut : System.Web.UI.Page
         }
     }
 
-    protected DropDownList populateTimes()
+    protected DropDownList populateTimes()// this just adds all of the possible times in the time dropdownbox
     {
         DropDownList ddl = new DropDownList();
 
@@ -242,7 +242,7 @@ public partial class FillOut : System.Web.UI.Page
 
     }
 
-    protected void deleteInstance(int formid)
+    protected void deleteInstance(int formid)//this function deletes the instance and reroutes the user to the trackingpage
     {
 
         string user = Session["username"].ToString();
@@ -255,7 +255,7 @@ public partial class FillOut : System.Web.UI.Page
         Response.Redirect("Tracking.aspx?formid=" + formid.ToString());
     }
 
-    protected void fillOutFields(int instanceid)
+    protected void fillOutFields(int instanceid)//this function fills out all of the generated elements 
     {
 
         ContentPlaceHolder mcph = (ContentPlaceHolder)this.Master.FindControl("ContentPlaceHolder1");
@@ -338,7 +338,7 @@ public partial class FillOut : System.Web.UI.Page
 
 
 
-    protected void Button1_Click(object sender, EventArgs e)
+    protected void Button1_Click(object sender, EventArgs e)// if the user clicks the save form script, this saves the inputted data
     {
         ContentPlaceHolder mcph = (ContentPlaceHolder)this.Master.FindControl("ContentPlaceHolder1");
         PlaceHolder cph = (PlaceHolder)mcph.FindControl("create");
@@ -413,7 +413,7 @@ public partial class FillOut : System.Web.UI.Page
         Instance instance = new Instance();
         int formid = 0;
         Int32.TryParse(formidBox.Text, out formid);
-        if (Request.QueryString["instanceid"] != null)
+        if (Request.QueryString["instanceid"] != null)//if they're editting a form, this recreates the instance table
         {
             int instanceid = 0;
             Int32.TryParse(Request.QueryString["instanceid"].ToString(), out instanceid);
@@ -421,7 +421,7 @@ public partial class FillOut : System.Web.UI.Page
             Session["notify"] = "Instance Updated!";
             Response.Redirect("Tracking.aspx?formid=" + formid);
         }
-        else
+        else//if they are creating a new form, this generates a new instance id and creates the instance table
         {
             instance.filloutForm(usernameBox.Text, formid, answerList);
             Session["notification"] = "Form Fill Out Completed!";

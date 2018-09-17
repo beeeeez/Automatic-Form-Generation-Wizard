@@ -12,11 +12,11 @@ public partial class editAccount : System.Web.UI.Page
 
     }
 
-    protected void passChangeBtn_Click(object sender, EventArgs e)
+    protected void passChangeBtn_Click(object sender, EventArgs e)// this script runs when the change password button is clicked
     {
 
         bool kosher;
-        kosher = isformEmpty(currentPassBox.Text);
+        kosher = isformEmpty(currentPassBox.Text);//empty form validation checks
         kosher = isformEmpty(newPassBox.Text);
         kosher = isformEmpty(confirmPassBox.Text);
         if (kosher == false)
@@ -60,7 +60,7 @@ public partial class editAccount : System.Web.UI.Page
     }
 
 
-    protected bool isformEmpty(string input)
+    protected bool isformEmpty(string input)// empty form validation
     {
         bool kosher = true;
 
@@ -72,7 +72,7 @@ public partial class editAccount : System.Web.UI.Page
 
     }
 
-    protected bool doformsMatch(string form1, string form2)
+    protected bool doformsMatch(string form1, string form2) // form matching validation
     {
         bool kosher = true;
         if (form1 != form2)
@@ -83,7 +83,7 @@ public partial class editAccount : System.Web.UI.Page
     }
 
 
-    protected void emailChangeBtn_Click(object sender, EventArgs e)
+    protected void emailChangeBtn_Click(object sender, EventArgs e)//script that runs when the change email address button is clicked 
     {
 
         bool kosher;

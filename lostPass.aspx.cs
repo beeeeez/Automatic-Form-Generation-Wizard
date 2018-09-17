@@ -14,7 +14,7 @@ public partial class lostPass : System.Web.UI.Page
 
     }
 
-    protected void emailPass_Click(object sender, EventArgs e)
+    protected void emailPass_Click(object sender, EventArgs e) // email stuff is cool
     {
         MailMessage msg = new MailMessage();
         System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();

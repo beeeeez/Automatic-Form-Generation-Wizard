@@ -7,6 +7,7 @@ using System.Data;
 using System.Security.Cryptography;
 
 /*This "Forms" class handles the SQL calls for the creation, updating, deletion, and searching of the form structure table
+ * it requires no arguments for construction
  * 
  * getFormStructure(int formid, string username) - returns a list of question objects from the structure table
  * updateStructure(int formid, int totalQ, List<question> qList) - updates the structure table by dropping it and then runs functions to recreate a new version of it

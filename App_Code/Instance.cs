@@ -6,9 +6,27 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Security.Cryptography;
 
-/// <summary>
-/// Summary description for Instance
-/// </summary>
+/*This "Instance" class handles the SQL calls for the creation, updating, deletion, and searching of the instance_master and each individual instance table
+ * it requires no arguments for construction
+ * 
+ * deleteInstance(string username, int formid, int instanceid) - drops a specific instance table
+ * removeInstancefromMaster(string username, int formid, int instanceid) - removes an entry from the instance_master table - used in instance deletion
+ * deleteInstanceMaster(string username, int formid) - drops the instance_master table for a specific form - used in form deletion
+ * updateInstanceAnswers(string username, int formid, int instanceid, List<string> answers) - drops the orignal instance table and recreates it with new values
+ * getInstanceAnswers(string username, int formid, int instanceid, int qCount) - returns a list of answers from a specific instance table
+ * pullMasterInstanceList(string username, int formid) - parses the instance_master table for every entry and creates a list of tpTableEntry objects that hold the values generated in the tracking page table
+ * insertFirstQuestion(string username, int formid, List<tpTableEntry> masterInstanceList) - grabs the first answer from the instance table and ammends the list of tpTableEntry objects with the appropriate values
+ * filloutForm(string username, int formid, List<String> answers) - handles the creation of a new instance (when somebody submits a form fillout)
+ * createNewInstanceID(string username, int formid) - makes a new entry in the instance_master table
+ * getNewInstanceID(string username, int formid, DateTime anchorDate) - returns the newly created instance id from the entry in the instance_master table
+ * createNewInstanceTable(string username, int formid, int instanceid, List<string> answers) - creates a new instance table 
+ * populateInstanceTable(string username, int formid, int instanceid, List<string> answers)- inserts the answers into the newly created instance table
+ * returnInstanceIDs(string username, int formid) - returns a list of instance ids stored in the instance master table
+ * 
+ * 
+ * 
+ * 
+ * */
 public class Instance : SQL
 {
     public Instance()
@@ -58,6 +76,7 @@ public class Instance : SQL
 
         deleteInstance(username, formid, instanceid);
         createNewInstanceTable(username, formid, instanceid, answers);
+        populateInstanceTable(username, formid, instanceid, answers);
         /*
         SqlConnection connection = new SqlConnection(connString);
         string tablename = username + "_" + formid.ToString() + "_Instance_" + instanceid.ToString();
@@ -108,10 +127,45 @@ public class Instance : SQL
     public List<tpTableEntry> pullMasterInstanceList(string username, int formid)
     {
         List<tpTableEntry> masterInstanceList = new List<tpTableEntry>();
-        string tablename = username + "_" + formid + "Instance_Master";
+        SqlConnection connection = new SqlConnection(connString);
+        string tablename = username + "_" + formid + "_Instance_Master";
+        string sqlStr = "select * from " + tablename;
+        SqlCommand commandah = new SqlCommand(sqlStr, connection);
+        connection.Open();
+        SqlDataReader dataRead = commandah.ExecuteReader();
+        while(dataRead.Read())
+        {
+            int tempid = 0;
+            Int32.TryParse(dataRead["instanceid"].ToString(), out tempid);
+
+            tpTableEntry temp = new tpTableEntry(tempid, (DateTime)dataRead["fillout_date"], "");
+            masterInstanceList.Add(temp);
+        }
+        connection.Close();
+        masterInstanceList = insertFirstQuestion(username, formid, masterInstanceList);
         return masterInstanceList;
     }
-   public DataSet populateTrackingTable(string username, int formid)
+
+    public List<tpTableEntry> insertFirstQuestion(string username, int formid, List<tpTableEntry> masterInstanceList)
+    {
+        foreach(tpTableEntry entry in masterInstanceList)
+        {
+            SqlConnection connection = new SqlConnection(connString);
+            string tablename = username + "_" + formid + "_Instance_" + entry.instanceid;
+            string sqlStr = "select a1 from " + tablename;
+            SqlCommand commandah = new SqlCommand(sqlStr, connection);
+            connection.Open();
+            SqlDataReader dataRead = commandah.ExecuteReader();
+            while (dataRead.Read())
+            {
+                entry.firstquestion = dataRead["a1"].ToString();
+            }
+            connection.Close();
+        }
+        return masterInstanceList;
+    }
+
+   public DataSet populateTrackingTable(string username, int formid) // defunct
     {
         string tablename = username + "_" + formid+ "_Instance_Master";
         DataSet bung = new DataSet();

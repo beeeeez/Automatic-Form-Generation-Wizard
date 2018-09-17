@@ -23,6 +23,10 @@ public partial class Printable : System.Web.UI.Page
 
         List<question> qList = temp.getFormStructure(formid, Session["username"].ToString());
 
+        /*if else statement that looks if the formid or the instanceid is not null 
+         if the formdid is not null it will go through each question on the form and display it on the screen
+         */
+
         if (Request.QueryString["formid"] != null)
         {
 
@@ -32,6 +36,7 @@ public partial class Printable : System.Web.UI.Page
 
             TextBox text = new TextBox();
 
+            //this foreach loops takes all the questions in order to see how many questions and their types
             foreach (question q in qList)
             {
                 Literal lit = new Literal();
@@ -46,7 +51,8 @@ public partial class Printable : System.Web.UI.Page
 
                 create.Controls.Add(lit);
                 i++;
-
+                
+                //if else statements in which depending on the type of question it creates a format to differentiate them
                 if (q.type == "short")
                 {
 
@@ -109,6 +115,9 @@ public partial class Printable : System.Web.UI.Page
 
             }
         }
+        /*this the else part that checks if the instance id is not null
+         this part will get the filled form and print it
+         */
         else if (Request.QueryString["instanceid"] != null)
         {
             Instance tempt = new Instance();
@@ -119,7 +128,7 @@ public partial class Printable : System.Web.UI.Page
             int i = 0;
             int j = 1;
 
-
+            //this foreach loop goes through the answers from the filled form and adds them to page 
             foreach (string answer in answersList)
             {
 
@@ -135,7 +144,8 @@ public partial class Printable : System.Web.UI.Page
                 j++;
                 create.Controls.Add(a);
 
-
+                /*this if else statement checks if whether the question type is a multiple choice or
+                 a checkbox, and depending on what type the question is it will add a checked or unchecked box for the answer*/
               //  int s = 0;
                 if (qList[i].type == "multiple")
                 {
@@ -168,37 +178,69 @@ public partial class Printable : System.Web.UI.Page
                 }
                 else if (qList[i].type == "checkbox")
                 {
-
-                    string achecki = answer;
+                    string[] checkedList = answer.Split(',');
+                   
                     foreach (string options in qList[i].options)
                     {
                         Literal op = new Literal();
+                        string nope = "<img src=" + '"' + "./unchecked.png" + '"' + '"' + "/>";
+                        op.Text = nope + " " + options + "<br / >";
+                        create.Controls.Remove(a);
+                        create.Controls.Add(op);                              
+                        
+                        foreach(string checkedAns in checkedList)
+                        {
+                            if(options == checkedAns)
+                            {
+                                Literal checkedBox = new Literal();
+                                string sii = "<img src=" + '"' + "./checked.png" + '"' + '"' + " />";
+                                checkedBox.Text = sii + " " + checkedAns + "<br />";
+                                create.Controls.Remove(op);
+                                create.Controls.Add(checkedBox);
+                            }
+                        }
 
-                        if (options == answer)
-                        {
-                            string sii = "<img src=" + '"' + "./checked.png" + '"' + '"' + " />";
-                            checkiii.Text = sii + answer + "<br />";
-                            create.Controls.Remove(a);
-                            create.Controls.Add(checkiii);
-                        }
-                        else
-                        {
-                            string nope = "<img src=" + '"' + "./unchecked.png" + '"' + '"' + "/>";
-                            op.Text = nope + options + "<br / >";
-                            create.Controls.Remove(a);
-                            create.Controls.Add(op);
-                        }
                     }
-
                     Literal sp = new Literal();
                     sp.Text = "<br />";
                     create.Controls.Add(sp);
 
+
+                    /*
+
+                    string achecki = answer;
+                    string[] checkedList = answer.Split(',');
+
+                    foreach (string options in qList[i].options)
+                    {
+                        Literal op = new Literal();                                            
+
+                            if (options == answer)
+                            {
+                                string sii = "<img src=" + '"' + "./checked.png" + '"' + '"' + " />";
+                                checkiii.Text = sii + " " + answer + "<br />";
+                                create.Controls.Remove(a);
+                                create.Controls.Add(checkiii);
+                            }
+                            else
+                            {
+                                string nope = "<img src=" + '"' + "./unchecked.png" + '"' + '"' + "/>";
+                                op.Text = nope + " " + options + "<br / >";
+                                create.Controls.Remove(a);
+                                create.Controls.Add(op);
+                            }
+                        }
+
+
+                    Literal sp = new Literal();
+                    sp.Text = "<br />";
+                    create.Controls.Add(sp);
+                    */
                 }
 
 
 
-                i++;
+                    i++;
             }
         }
 

@@ -77,13 +77,13 @@
             <asp:Button ID="saveSubmit" runat="server" Text="Save Form" CssClass="btn btn-primary"/>-->
 
             </div>
-            <script>
+            <script>// I hope you enjoy looking at jquery spaghetti
                 let qnum = 0;
                 let ddlMem;
                 $("#totalQ").val(qnum);
                 $("#editFormID").css({ "display": "none" });
                 drawEditStructure();
-                function drawEditStructure() {                  
+                function drawEditStructure() { //if they are editting the structure, draw out the previously created question options
                     let b = "#ContentPlaceHolder1_";
                     $("#editFormID").val($(b + "sformid").val());
                     if ($(b + "sformid").val() > 0) {
@@ -128,7 +128,7 @@
                    }
                 }
 
-                function saveValidate(event) {
+                function saveValidate(event) {// validates if there is at least one question
                     let kosher = true;
                     for (let x in $("div#contain").children("input[type='text']")) {
                     if ($("#totalQ").val() == 0) {
@@ -172,7 +172,7 @@
                 $("#addText").click(addText)
                 
                 
-                function addText(){
+                function addText(){ // creates the static text elements
                     qnum = parseInt($("#totalQ").val()) + 1;
                     let tDiv = '<div id="q' + qnum + '" class="question"><hr /><h4>Static Text -  #<span id="span' + qnum + '">' + qnum + '</span></h4><input type="hidden" id="ddl' + qnum + '"  name="ddl' + qnum + '"value="static" /><textarea id="tb' + qnum + '" cols="40" rows="5" name="tb' + qnum + '" placeholder="Untitled Static Text" class="form-control textarea"></textarea><span id="del' + qnum + '" onclick="delQ(' + qnum + ')" class="btn btn-danger inlineBtn"><i class="fas fa-times"></i> Delete this Static Text</span><hr /></div> ';
                     $("#totalQ").val(qnum);
@@ -180,7 +180,7 @@
 
                 };
 
-                function jsDelete() {
+                function jsDelete() { // allows the user to delete a form by using postback
                     let del = '<input type="hidden" value="true" name="delete" id="delete" />';
                     $("#create").append(del);
                 }
@@ -189,7 +189,7 @@
                 $("#addBtn").click(addQuestion);
 
 
-                    function addQuestion() {
+                    function addQuestion() {// creates the new question elements
 
 
                     qnum = parseInt($("#totalQ").val()) + 1;
@@ -199,14 +199,14 @@
 
                 }
 
-                function delQ(qnum) {
+                function delQ(qnum) { // this handles the deletion of a question
 
                     $('#q' + qnum).remove();
                     reDraw(qnum);
                     $("#totalQ").val(parseInt($("#totalQ").val()) - 1);
                 }
 
-                function reDraw(hold) {
+                function reDraw(hold) { // everytime a user deletes a question, everything needs to be renumbered so we can correctly parse the information
                     let qnum = parseInt(hold);
                     let totalNum = parseInt($("#totalQ").val());
                     let correctNum = qnum++;
@@ -252,7 +252,7 @@
                 }
 
 
-                function ddlChange(hold) {
+                function ddlChange(hold) { // if the type selection is changed to multiple or checkbox, we need to draw the new elements for those selections
                     if ($('#ddl' + hold).val() == "multiple" || $('#ddl' + hold).val() == "checkbox") {
                         if ($('#options' + hold).length == 0) {
                             drawOption(hold);
@@ -289,12 +289,12 @@
                 }
                 */
 
-                function drawOption(hold) {
+                function drawOption(hold) {// if options are required, start them off by drawing two options
                     let draw = '<div id="options' + hold + '"><br /><input type="hidden" id="q' + hold + 'OptionsTotal"  name="q' + hold + 'OptionsTotal"value="2" /><input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option1" name="q' + hold + 'Option1" required/><span id="delOption1" onclick="delOption(' + hold + ', 1)"  class="btn btn-warning inlineBtn"><i class="fas fa-times"></i> Delete this Option </span><br id="q' + hold + 'space1"/> <input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option2" name="q' + hold + 'Option2" required><span id="delOption2" onclick="delOption(' + hold + ', 2)" class="btn btn-warning inlineBtn" ><i class="fas fa-times"></i> Delete this Option </span><br  id="q' + hold + 'space2"/><span id="addOption' + hold + '" onclick="addOption(' + hold + ')" class="btn btn-primary option" ><i class="fas fa-plus"></i> Add Option</span><br /></div> ';
                     $('#q' + hold).append(draw);
                 }
 
-                function addOption(hold) {
+                function addOption(hold) { // add new options to a previously created options elements list
                     let opTotal = parseInt($('#q' + hold + 'OptionsTotal').val());
                     opTotal++;
                     let draw = '<input type="text" class="form-control" placeholder="Untitled Option" id="q' + hold + 'Option' + opTotal + '"  name="q' + hold + 'Option' + opTotal + '" /><span id="delOption' + opTotal + '" onclick="delOption(' + hold + ', ' + opTotal + ')" class="btn btn-warning inlineBtn" required ><i class="fas fa-times"></i> Delete this Option </span><br id="q' + hold + 'space' + opTotal + '" />';
@@ -304,7 +304,7 @@
               
                 }
 
-                function destroyOption(hold) {
+                function destroyOption(hold) { // destroys a specific option 
                     $('#options' + hold).remove();
              
                 }
@@ -316,7 +316,7 @@
 
 
 
-                function delOption(qnum, onum) {
+                function delOption(qnum, onum) { // deletes the entirety of a questions options
                     let totalOp = parseInt($('#q' + qnum + 'OptionsTotal').val());
                     console.log(totalOp + " parsed Total");
                     console.log("destroyed question#" + qnum + "  - option#" + onum);
